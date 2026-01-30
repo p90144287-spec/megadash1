@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MegaDash</title>
+    <meta name="description"
+        content="MegaDash is a responsive app portal with 100+ AI tools, design apps, productivity tools, games, finance, and utilities – all in one dashboard.">
+    <meta name="keywords"
+        content="MegaDash is a centralized, AI-powered productivity dashboard designed to serve as an all-in-one launchpad for over 100 web applications. It features a glassmorphic user interface that organizes tools into specialized categories such as AI, Development, Design, and Finance.">
+    <meta name="Prashant" content="MegaDash">
+
+    <!-- CANONICAL URL -->
+    <link rel="canonical" href="https://appsdash.netlify.app/">
+
+    <!-- OPEN GRAPH (Facebook, WhatsApp, LinkedIn) -->
+    <meta property="og:title" content="MegaDash – 100+ Online Tools in One Dashboard">
+    <meta property="og:description"
+        content="MegaDash is a centralized, AI-powered productivity dashboard designed to serve as an all-in-one launchpad for over 100 web applications. It features a glassmorphic user interface that organizes tools into specialized categories such as AI, Development, Design, and Finance.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://appsdash.netlify.app/">
+
+    <!-- ROBOTS -->
+    <meta name="robots" content="index, follow">
+
+    <!-- FAVICON -->
+    <link rel="icon" href="icon.png">
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    
+    <script>
+  if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('Service Worker registered!', reg))
+      .catch(err => console.error('Registration failed:', err));
+  });
+}
+</script>
+</head>
+<body>
+  <div class="overlay"></div>
+
+<!-- Mobile Header -->
+<header class="mobile-header">
+    <div class="logo">
+        <i class="fas fa-rocket"></i> MegaDash
+    </div>
+    <i class="fas fa-bars"></i>
+</header>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar glass">
+        <h2 class="sidebar-title">
+            <i class="fas fa-rocket"></i> MEGADASH
+        </h2>
+
+        <nav class="sidebar-menu">
+    <button class="active">
+        <i class="fas fa-border-all"></i>
+        <span>All Apps</span>
+    </button>
+
+    <button>
+        <i class="fas fa-robot"></i>
+        <span>AI</span>
+    </button>
+
+    <button>
+        <i class="fas fa-code"></i>
+        <span>Dev</span>
+    </button>
+
+    <button>
+        <i class="fas fa-palette"></i>
+        <span>Design</span>
+    </button>
+
+    <button>
+        <i class="fas fa-share-nodes"></i>
+        <span>Social</span>
+    </button>
+
+    <button>
+        <i class="fas fa-wallet"></i>
+        <span>Finance</span>
+    </button>
+
+    <button>
+        <i class="fas fa-gamepad"></i>
+        <span>Games</span>
+    </button>
+
+    <button>
+        <i class="fas fa-graduation-cap"></i>
+        <span>Education</span>
+    </button>
+
+    <button>
+        <i class="fas fa-screwdriver-wrench"></i>
+        <span>Utilities</span>
+    </button>
+</nav>
+
+
+        <p class="sidebar-footer">v2.0 • 100+ Apps</p>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+        <div class="content-header">
+            <div>
+                <h1>All Apps</h1>
+                <p class="subtitle">Showing all tools</p>
+            </div>
+           
+           <!-- Recently Used Apps -->
+<section id="recent-section" class="recent-section">
+    <h2 class="recent-title">Recently Used</h2>
+
+    <div id="recent-apps" class="recent-grid">
+        <!-- JS will inject apps here -->
+    </div>
+</section>
+
+<!-- Recommended Apps -->
+<section id="recommend-section" class="recent-section">
+    <h2 class="recent-title">Recommended for You</h2>
+
+    <div id="recommend-apps" class="recent-grid">
+        <!-- JS will inject recommended apps -->
+    </div>
+</section>
+
+
+
+
+            <div class="search-box glass">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search apps...">
+                <i class="fas fa-microphone"></i>
+            </div>
+        </div>
+
+        <!-- App Grid -->
+        <section class="app-grid"> </section>
+    </main>
+
+</div>
+
+<script src="apps-data.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
