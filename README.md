@@ -14,7 +14,7 @@ MegaDash is a sleek, high-performance **Progressive Web App (PWA)** designed to 
 
 ## 🚀 Live Demo
 
-**[View MegaDash Live](https://YOUR-USERNAME.github.io/YOUR-REPO-NAME/)** *(Replace the link above with your actual GitHub Pages URL after deploying)*
+**[See My Live Website](https://p90144287-spec.github.io/megadash1/)**
 
 ---
 
@@ -22,7 +22,7 @@ MegaDash is a sleek, high-performance **Progressive Web App (PWA)** designed to 
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git](https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git)
+    https://p90144287-spec.github.io/megadash1/
     ```
 2.  **Open locally:**
     Simply open `index.html` in your browser.
