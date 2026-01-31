@@ -55,18 +55,22 @@ h1 {
 
 
 /* Glass effect */
+/* Update your .glass class */
 .glass {
-    background: linear-gradient(
-        180deg,
-        rgba(255,255,255,0.12),
-        rgba(255,255,255,0.03)
-    );
-    backdrop-filter: blur(18px) saturate(140%);
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow:
-        0 20px 40px rgba(0,0,0,.35),
-        inset 0 1px 0 rgba(255,255,255,.1);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.glass:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
 
 
 /* Mobile Header */
@@ -210,28 +214,35 @@ h1 {
 /* App Grid */
 .app-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 20px;
+    padding: 20px 0;
 }
 
 .app-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
     border-radius: 20px;
-    text-align: center;
     text-decoration: none;
-    color: white;
-    transition: 0.3s ease;
+    text-align: center;
 }
+
+.app-card img {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    margin-bottom: 12px;
+    object-fit: cover;
+    /* Add a subtle glow to icons */
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+
 
 .app-card:hover {
     transform: translateY(-6px);
     background: rgba(255, 255, 255, 0.12);
-}
-
-.app-card img {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 12px;
 }
 
 .app-card h3 {
