@@ -23,8 +23,48 @@ document.addEventListener("DOMContentLoaded", () => {
     renderApps(appData);
     renderRecentApps();
     renderRecommendations();
-    renderTimeBasedApps();
 });
+
+/* =====================================================
+   TIME SLOT DETECTION
+===================================================== */
+function getTimeSlot() {
+    const h = new Date().getHours();
+    if (h >= 5 && h < 12) return "morning";
+    if (h >= 12 && h < 17) return "afternoon";
+    if (h >= 17 && h < 21) return "evening";
+    return "night";
+}
+
+
+
+
+function getAppIcon(app) {
+
+    // 1️⃣ Explicit icon provided (root OR any path)
+    if (app.icon) {
+        // If icon is relative (like "app1.png"), make it root-safe
+        if (!app.icon.startsWith("http") && !app.icon.startsWith("/")) {
+            return "./" + app.icon;
+        }
+        return app.icon;
+    }
+
+    // 2️⃣ Local HTML apps fallback
+    if (!app.url.startsWith("http")) {
+        return "./app1.png"; // default local icon
+    }
+
+    // 3️⃣ Web favicon fallback
+    try {
+        return `https://www.google.com/s2/favicons?sz=128&domain=${new URL(app.url).hostname}`;
+    } catch {
+        return "./app1.png";
+    }
+}
+
+
+
 
 /* =====================================================
    CATEGORY SETUP
@@ -43,11 +83,11 @@ function initCategories() {
         Science: "fa-flask",
         News: "fa-newspaper",
         Science: "fa-flask",
-    Shopping: "fa-cart-shopping",
-    Health: "fa-heart-pulse",
-    Travel: "fa-plane",
-    News: "fa-newspaper"
-        Shopping: "fa-cart-shopping"
+        Shopping: "fa-cart-shopping",
+        Health: "fa-heart-pulse",
+        Travel: "fa-plane",
+        News: "fa-newspaper",
+        Shopping: "fa-cart-shopping",
     };
 
     const categories = ["All", ...new Set(appData.map(app => app.cat))];
@@ -74,7 +114,7 @@ function filterByCategory(cat, btn) {
         : appData.filter(app => app.cat === cat);
 
     renderApps(filtered);
-    renderRecentApps();
+    ();
     renderRecommendations();
 }
 
@@ -85,47 +125,83 @@ function renderApps(list) {
     subtitle.textContent = `Showing ${list.length} tools`;
 
     grid.innerHTML = list.length
-        ? list.map(app => `
-            <a class="app-card glass" href="${app.url}" target="_blank"
-               onclick='handleAppClick(${JSON.stringify(app)})'>
-                <img src="https://www.google.com/s2/favicons?sz=128&domain=${new URL(app.url).hostname}">
-                <h3>${app.name}</h3>
-                <span>${app.cat}</span>
-            </a>
-        `).join("")
+        ? list.map(app => {
+
+            // ✅ detect local app (html file)
+            const isLocal = !app.url.startsWith("http");
+
+            // ✅ safe icon logic
+            let icon;
+            if (isLocal) {
+                icon = "app1.png"; // local game icon
+            } else {
+                icon = `https://www.google.com/s2/favicons?sz=128&domain=${new URL(app.url).hostname}`;
+            }
+
+            return `
+                <a class="app-card glass"
+                   href="${app.url}"
+                   ${isLocal ? "" : 'target="_blank"'}
+                   onclick='handleAppClick(${JSON.stringify(app)})'>
+
+                    <img src="${getAppIcon(app)}">
+
+                    <h3>${app.name}</h3>
+                    <span>${app.cat}</span>
+                </a>
+            `;
+        }).join("")
         : `<div style="grid-column:1/-1;text-align:center;opacity:.6">
             No apps found
           </div>`;
 }
 
+
 /* =====================================================
    RECENT & RECOMMENDED
 ===================================================== */
 function renderRecentApps() {
-    const section = document.getElementById("recent-section");
-    const container = document.getElementById("recent-apps");
+    const recentSection = document.getElementById("recent-section");
+    const recentGrid = document.getElementById("recent-apps");
+    
+  //  HIDE RECENT WHEN NOT IN "ALL"
 
-    if (activeCategory !== "All") {
-        section.style.display = "none";
-        return;
-    }
+if (activeCategory !== "All") { recentSection.style.display = "none";
 
-    const recent = JSON.parse(localStorage.getItem(RECENT_KEY)) || [];
-    if (!recent.length) {
-        section.style.display = "none";
-        return;
-    }
-
-    section.style.display = "block";
-    container.innerHTML = recent.map(app => `
-        <a class="app-card glass" href="${app.url}" target="_blank"
-           onclick='handleAppClick(${JSON.stringify(app)})'>
-            <img src="https://www.google.com/s2/favicons?sz=128&domain=${new URL(app.url).hostname}">
-            <h3>${app.name}</h3>
-        </a>
-    `).join("");
+return;
 }
 
+    const recent = JSON.parse(localStorage.getItem("recentApps")) || [];
+
+    if (!recent.length) {
+        recentSection.style.display = "none";
+        return;
+    }
+
+    recentSection.style.display = "block";
+
+    recentGrid.innerHTML = recent.map(app => {
+
+        const isLocal = !app.url.startsWith("http");
+        const icon = getAppIcon(app);
+
+        return `
+            <a class="app-card glass"
+               href="${app.url}"
+               ${isLocal ? "" : 'target="_blank"'}
+               onclick='handleAppClick(${JSON.stringify(app)})'>
+
+                <img src="${icon}">
+                <h3>${app.name}</h3>
+            </a>
+        `;
+    }).join("");
+}
+
+
+/* =====================================================
+   RENDER RECOMMENDATIONS
+===================================================== */
 function renderRecommendations() {
     const section = document.getElementById("recommend-section");
     const container = document.getElementById("recommend-apps");
@@ -135,19 +211,7 @@ function renderRecommendations() {
         return;
     }
 
-    const recent = JSON.parse(localStorage.getItem(RECENT_KEY)) || [];
-    if (!recent.length) {
-        section.style.display = "none";
-        return;
-    }
-
-    const usedCats = new Set(recent.map(a => a.cat));
-    const usedUrls = new Set(recent.map(a => a.url));
-
-    const recommended = appData
-        .filter(app => usedCats.has(app.cat) && !usedUrls.has(app.url))
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 6);
+    const recommended = getTimeBasedRecommendations();
 
     if (!recommended.length) {
         section.style.display = "none";
@@ -155,14 +219,26 @@ function renderRecommendations() {
     }
 
     section.style.display = "block";
-    container.innerHTML = recommended.map(app => `
-        <a class="app-card glass" href="${app.url}" target="_blank"
-           onclick='handleAppClick(${JSON.stringify(app)})'>
-            <img src="https://www.google.com/s2/favicons?sz=128&domain=${new URL(app.url).hostname}">
-            <h3>${app.name}</h3>
-        </a>
-    `).join("");
+
+    container.innerHTML = recommended.map(app => {
+
+        const isLocal = !app.url.startsWith("http");
+        const icon = getAppIcon(app);
+
+        return `
+            <a class="app-card glass"
+               href="${app.url}"
+               ${isLocal ? "" : 'target="_blank"'}
+               onclick='handleAppClick(${JSON.stringify(app)})'>
+
+                <img src="${icon}">
+                <h3>${app.name}</h3>
+            </a>
+        `;
+    }).join("");
 }
+
+
 
 /* =====================================================
    TIME BASED INTELLIGENCE
@@ -175,18 +251,63 @@ function getTimeSlot() {
     return "night";
 }
 
+/* =====================================================
+   APP CLICK HANDLER (LEARNING ENGINE)
+===================================================== */
 function handleAppClick(app) {
-    let recent = JSON.parse(localStorage.getItem(RECENT_KEY)) || [];
+
+    // ---------- RECENT APPS ----------
+    let recent = JSON.parse(localStorage.getItem("recentApps")) || [];
     recent = recent.filter(a => a.url !== app.url);
     recent.unshift(app);
-    localStorage.setItem(RECENT_KEY, JSON.stringify(recent.slice(0, MAX_RECENT)));
+    localStorage.setItem("recentApps", JSON.stringify(recent.slice(0, 6)));
 
-    const usage = JSON.parse(localStorage.getItem("timeUsage")) || {};
+    // ---------- TIME + CATEGORY LEARNING ----------
     const slot = getTimeSlot();
-    usage[slot] = usage[slot] || {};
-    usage[slot][app.name] = (usage[slot][app.name] || 0) + 1;
+    let usage = JSON.parse(localStorage.getItem("timeUsage")) || {};
+
+    if (!usage[slot]) usage[slot] = {};
+    if (!usage[slot][app.cat]) usage[slot][app.cat] = 0;
+
+    usage[slot][app.cat] += 1;
     localStorage.setItem("timeUsage", JSON.stringify(usage));
+
+    // 🔁 UPDATE UI INSTANTLY
+    renderRecentApps();
+    renderRecommendations();
 }
+
+
+/* =====================================================
+   SMART TIME-BASED RECOMMENDATIONS
+===================================================== */
+function getTimeBasedRecommendations() {
+    const slot = getTimeSlot();
+    const usage = JSON.parse(localStorage.getItem("timeUsage")) || {};
+    const recent = JSON.parse(localStorage.getItem("recentApps")) || [];
+
+    if (!usage[slot]) return [];
+
+    const favCategories = Object.entries(usage[slot])
+        .sort((a, b) => b[1] - a[1])
+        .map(([cat]) => cat);
+
+    const usedUrls = new Set(recent.map(a => a.url));
+    const result = [];
+
+    favCategories.forEach(cat => {
+        appData
+            .filter(app => app.cat === cat && !usedUrls.has(app.url))
+            .forEach(app => {
+                if (result.length < 6) result.push(app);
+            });
+    });
+
+    return result;
+}
+
+
+
 
 function renderTimeBasedApps() {
     const usage = JSON.parse(localStorage.getItem("timeUsage")) || {};
@@ -210,7 +331,7 @@ function renderTimeBasedApps() {
     container.innerHTML = sorted.map(app => `
         <a class="app-card glass" href="${app.url}" target="_blank"
            onclick='handleAppClick(${JSON.stringify(app)})'>
-            <img src="https://www.google.com/s2/favicons?sz=128&domain=${new URL(app.url).hostname}">
+            <img src="${getAppIcon(app)}">
             <h3>${app.name}</h3>
         </a>
     `).join("");
@@ -259,12 +380,16 @@ searchInput.addEventListener("keydown", e => {
 mobileMenuBtn.addEventListener("click", () => {
     sidebar.classList.add("open");
     overlay.classList.add("active");
+    document.body.classList.add("menu-open"); // 👈 IMPORTANT
 });
+
 
 overlay.addEventListener("click", () => {
     sidebar.classList.remove("open");
     overlay.classList.remove("active");
+    document.body.classList.remove("menu-open"); // 👈 IMPORTANT
 });
+
 
 /* =====================================================
    VOICE SEARCH

@@ -1,4 +1,12 @@
 window.APP_DATA = [
+    {
+  name: "Calc Ballon",
+  cat: "Our apps",
+  url: "game1.html",
+  icon: "./app1.png",
+  keywords: ["game", "html", "fun", "local"]
+},
+
     // 🤖 AI
     { name: "ChatGPT", cat: "AI", url: "https://chatgpt.com", keywords: ["ai", "chatbot", "gpt", "assistant"] },
     { name: "Claude", cat: "AI", url: "https://claude.ai", keywords: ["ai", "chatbot", "anthropic"] },
@@ -159,124 +167,138 @@ window.APP_DATA = [
     { name: "arXiv", cat: "Science", url: "https://arxiv.org", keywords: ["physics", "math", "ai", "research"] },
     { name: "Google Scholar", cat: "Science", url: "https://scholar.google.com", keywords: ["research", "papers", "science"] },
     { name: "Semantic Scholar", cat: "Science", url: "https://www.semanticscholar.org", keywords: ["research", "ai", "science"] },
-                // 🔬 SCIENCE
-            { name: "NASA", cat: "Science", url: "https://www.nasa.gov", keywords: ["space", "science", "nasa", "planets"] },
-            { name: "ESA", cat: "Science", url: "https://www.esa.int", keywords: ["space", "astronomy", "science", "europe"] },
-            { name: "Space.com", cat: "Science", url: "https://www.space.com", keywords: ["space", "astronomy", "news", "galaxy"] },
-            { name: "Hubble Site", cat: "Science", url: "https://hubblesite.org", keywords: ["space", "telescope", "nasa", "universe"] },
-            { name: "Science Daily", cat: "Science", url: "https://www.sciencedaily.com", keywords: ["science", "research", "news", "discovery"] },
-            { name: "Scientific American", cat: "Science", url: "https://www.scientificamerican.com", keywords: ["science", "research", "articles", "nature"] },
-            { name: "CERN", cat: "Science", url: "https://home.cern", keywords: ["physics", "particles", "science", "lab"] },
-            { name: "NOAA", cat: "Science", url: "https://www.noaa.gov", keywords: ["climate", "earth", "weather", "ocean"] },
-            { name: "BrainFacts", cat: "Science", url: "https://www.brainfacts.org", keywords: ["neuroscience", "brain", "biology"] },
-            { name: "arXiv", cat: "Science", url: "https://arxiv.org", keywords: ["physics", "math", "ai", "research", "papers"] },
-            { name: "Google Scholar", cat: "Science", url: "https://scholar.google.com", keywords: ["research", "papers", "science", "academic"] },
-            { name: "Semantic Scholar", cat: "Science", url: "https://www.semanticscholar.org", keywords: ["research", "ai", "science", "discovery"] },
+    
+    // 🤖 AI & Automation
+    { name: "Cursor", cat: "AI", url: "https://cursor.com", keywords: ["ai", "code", "editor", "developer", "programming"] },
+    { name: "Dify", cat: "AI", url: "https://dify.ai", keywords: ["ai", "agents", "workflow", "llm", "automation"] },
+    { name: "Mistral AI", cat: "AI", url: "https://mistral.ai", keywords: ["ai", "llm", "open-source", "models"] },
+    { name: "Zapier", cat: "AI", url: "https://zapier.com", keywords: ["automation", "workflow", "integration", "tasks"] },
+    { name: "Copy.ai", cat: "AI", url: "https://copy.ai", keywords: ["writing", "marketing", "copywriting", "ai"] },
 
-            // 📰 News
-            { name: "Google News", cat: "News", url: "https://news.google.com", keywords: ["news", "headlines", "world", "local"] },
-            { name: "BBC News", cat: "News", url: "https://www.bbc.com/news", keywords: ["news", "world", "uk", "headlines"] },
-            { name: "Reuters", cat: "News", url: "https://www.reuters.com", keywords: ["news", "finance", "world", "reports"] },
+    // 💻 Development & Engineering
+    { name: "Visual Studio Code", cat: "Dev", url: "https://code.visualstudio.com", keywords: ["editor", "ide", "code", "programming"] },
+    { name: "Linear", cat: "Dev", url: "https://linear.app", keywords: ["project", "issue-tracker", "software", "agile"] },
+    { name: "MongoDB Atlas", cat: "Dev", url: "https://mongodb.com/atlas", keywords: ["database", "nosql", "cloud", "data"] },
+    { name: "Raycast", cat: "Dev", url: "https://raycast.com", keywords: ["productivity", "launcher", "utility", "tools"] },
+    { name: "Jira", cat: "Dev", url: "https://atlassian.com/software/jira", keywords: ["agile", "project", "kanban", "enterprise"] },
 
-            // 🛍️ Shopping
-            { name: "Amazon", cat: "Shopping", url: "https://amazon.in", keywords: ["shopping", "buy", "store", "ecommerce"] },
-            { name: "Flipkart", cat: "Shopping", url: "https://flipkart.com", keywords: ["shopping", "ecommerce", "deals", "buy"] },
-            { name: "eBay", cat: "Shopping", url: "https://ebay.com", keywords: ["shopping", "auction", "buy", "sell"] },
+    // 💼 Productivity & Ops
+    { name: "Obsidian", cat: "Work", url: "https://obsidian.md", keywords: ["notes", "knowledge-base", "markdown", "pkm"] },
+    { name: "Loom", cat: "Work", url: "https://loom.com", keywords: ["video", "screen-record", "communication", "async"] },
+    { name: "Miro", cat: "Work", url: "https://miro.com", keywords: ["whiteboard", "collaboration", "design", "planning"] },
+    { name: "HubSpot", cat: "Work", url: "https://hubspot.com", keywords: ["crm", "sales", "marketing", "business"] },
+    { name: "Zocdoc", cat: "Health", url: "https://zocdoc.com", keywords: ["doctor", "appointment", "medical", "health"] },
 
-            // 🏥 Health
-            { name: "WebMD", cat: "Health", url: "https://webmd.com", keywords: ["health", "medical", "symptoms", "doctors"] },
-            { name: "Mayo Clinic", cat: "Health", url: "https://www.mayoclinic.org", keywords: ["health", "medical", "advice", "care"] },
-            { name: "Healthline", cat: "Health", url: "https://www.healthline.com", keywords: ["health", "wellness", "nutrition", "fitness"] },
+    // 🎨 Design & Creative
+    { name: "Webflow", cat: "Design", url: "https://webflow.com", keywords: ["no-code", "website", "design", "builder"] },
+    { name: "Adobe Firefly", cat: "Design", url: "https://adobe.com/firefly", keywords: ["ai", "generative", "art", "creative"] },
+    { name: "Spline", cat: "Design", url: "https://spline.design", keywords: ["3d", "design", "interactive", "web"] },
+    { name: "Envato Elements", cat: "Design", url: "https://elements.envato.com", keywords: ["assets", "templates", "stock", "graphics"] },
 
-            // ✈️ Travel
-            { name: "Make My Trip", cat: "Travel", url: "https://makemytrip.com", keywords: ["travel", "flight", "hotel", "booking"] },
-            { name: "Google Maps", cat: "Travel", url: "https://maps.google.com", keywords: ["maps", "navigation", "gps", "route"] },
-            { name: "Booking.com", cat: "Travel", url: "https://booking.com", keywords: ["hotel", "travel", "stay", "accommodation"] },
+    // 🎓 Learning & Research
+    { name: "Quizlet", cat: "Edu", url: "https://quizlet.com", keywords: ["study", "flashcards", "learning", "exams"] },
+    { name: "JSTOR", cat: "Edu", url: "https://jstor.org", keywords: ["research", "papers", "academic", "library"] },
+    { name: "LinkedIn Learning", cat: "Edu", url: "https://linkedin.com/learning", keywords: ["courses", "skills", "professional", "career"] },
+    { name: "Perplexity Pages", cat: "Edu", url: "https://perplexity.ai/pages", keywords: ["research", "writing", "ai", "content"] },
 
-            // 🛡️ Security
-            { name: "Have I Been Pwned", cat: "Security", url: "https://haveibeenpwned.com", keywords: ["security", "breach", "password", "hack"] },
-            { name: "ProtonMail", cat: "Security", url: "https://mail.proton.me", keywords: ["email", "privacy", "secure", "encrypted"] },
+    // 🛠️ Advanced Utilities
+    { name: "Plaid", cat: "Finance", url: "https://plaid.com", keywords: ["banking", "api", "finance", "connect"] },
+    { name: "Archive.is", cat: "Utils", url: "https://archive.is", keywords: ["snapshot", "web", "history", "archive"] },
+    { name: "Tailscale", cat: "Utils", url: "https://tailscale.com", keywords: ["vpn", "networking", "security", "mesh"] },
+    { name: "Ngrok", cat: "Utils", url: "https://ngrok.com", keywords: ["tunneling", "localhost", "developer", "api"] },
 
-            // ☁️ Cloud
-            { name: "AWS Console", cat: "Cloud", url: "https://aws.amazon.com/console", keywords: ["cloud", "aws", "server", "amazon"] },
-            { name: "Google Cloud", cat: "Cloud", url: "https://cloud.google.com", keywords: ["cloud", "gcp", "server", "google"] },
-            { name: "DigitalOcean", cat: "Cloud", url: "https://digitalocean.com", keywords: ["cloud", "hosting", "droplet", "vps"] },
+    // 🌍 Lifestyle & Travel
+    { name: "TripIt", cat: "Travel", url: "https://tripit.com", keywords: ["itinerary", "travel", "flight", "planner"] },
+    { name: "Taste Atlas", cat: "Travel", url: "https://tasteatlas.com", keywords: ["food", "local", "travel", "map"] },
+    { name: "Skyscanner", cat: "Travel", url: "https://skyscanner.net", keywords: ["flights", "travel", "cheap", "booking"] },
+    // 📰 News
+    { name: "BBC News", cat: "News", url: "https://bbc.com", keywords: ["news", "global", "world", "headlines"] },
+    { name: "Reuters", cat: "News", url: "https://reuters.com", keywords: ["news", "finance", "business", "global"] },
+    { name: "The Verge", cat: "News", url: "https://theverge.com", keywords: ["tech", "gadgets", "science", "news"] },
+    { name: "Inkl", cat: "News", url: "https://inkl.com", keywords: ["news", "curated", "premium", "headlines"] },
+    { name: "Ground News", cat: "News", url: "https://ground.news", keywords: ["news", "bias-check", "politics", "analysis"] },
 
-            // 🌐 Browser
-            { name: "Chrome Web Store", cat: "Browser", url: "https://chrome.google.com/webstore", keywords: ["browser", "extensions", "themes", "plugins"] },
+    // 🛍️ Shopping
+    { name: "AliExpress", cat: "Shopping", url: "https://aliexpress.com", keywords: ["shopping", "global", "deals", "ecommerce"] },
+    { name: "Etsy", cat: "Shopping", url: "https://etsy.com", keywords: ["handmade", "vintage", "gifts", "shopping"] },
+    { name: "eBay", cat: "Shopping", url: "https://ebay.com", keywords: ["auction", "buy", "sell", "shopping"] },
+    { name: "Best Buy", cat: "Shopping", url: "https://bestbuy.com", keywords: ["electronics", "tech", "gadgets", "shopping"] },
+    { name: "Temu", cat: "Shopping", url: "https://temu.com", keywords: ["shopping", "deals", "affordable", "discount"] },
 
-            // 🏛️ Government
-            { name: "India Gov", cat: "Government", url: "https://india.gov.in", keywords: ["government", "india", "portal", "services"] },
-            { name: "USA.gov", cat: "Government", url: "https://usa.gov", keywords: ["government", "usa", "portal", "services"] },
-                        // 🎨 DESIGN & CREATIVE (Additions)
-            { name: "Pexels", cat: "Design", url: "https://pexels.com", keywords: ["photos", "videos", "stock", "free", "creative"] },
-            { name: "Pixabay", cat: "Design", url: "https://pixabay.com", keywords: ["images", "illustrations", "vectors", "free"] },
-            { name: "LottieFiles", cat: "Design", url: "https://lottiefiles.com", keywords: ["animation", "json", "motion", "ui"] },
-            { name: "Font Awesome", cat: "Design", url: "https://fontawesome.com", keywords: ["icons", "fonts", "svg", "web"] },
-            { name: "Google Fonts", cat: "Design", url: "https://fonts.google.com", keywords: ["typography", "fonts", "webdesign"] },
-            { name: "Adobe Color", cat: "Design", url: "https://color.adobe.com", keywords: ["palette", "color", "wheel", "scheme"] },
+    // 🏥 Health
+    { name: "Zocdoc", cat: "Health", url: "https://zocdoc.com", keywords: ["doctor", "appointment", "medical", "booking"] },
+    { name: "Practo", cat: "Health", url: "https://practo.com", keywords: ["health", "doctor", "consultation", "medical"] },
+    { name: "Medscape", cat: "Health", url: "https://medscape.com", keywords: ["medical", "news", "doctor", "reference"] },
+    { name: "Healthline", cat: "Health", url: "https://healthline.com", keywords: ["wellness", "health", "medical", "advice"] },
+    { name: "MyFitnessPal", cat: "Health", url: "https://myfitnesspal.com", keywords: ["fitness", "diet", "tracking", "calories"] },
 
-            // 💻 DEVELOPMENT (Additions)
-            { name: "Docker Hub", cat: "Dev", url: "https://hub.docker.com", keywords: ["containers", "devops", "images", "deployment"] },
-            { name: "npm", cat: "Dev", url: "https://npmjs.com", keywords: ["javascript", "packages", "node", "modules"] },
-            { name: "Can I Use", cat: "Dev", url: "https://caniuse.com", keywords: ["browser", "support", "html5", "css3"] },
-            { name: "JSON Formatter", cat: "Dev", url: "https://jsonlint.com", keywords: ["json", "validate", "format", "debug"] },
-            { name: "Regex101", cat: "Dev", url: "https://regex101.com", keywords: ["regex", "test", "debug", "expression"] },
-            { name: "W3Schools", cat: "Dev", url: "https://w3schools.com", keywords: ["tutorial", "learn", "html", "css", "js"] },
+    // ✈️ Travel
+    { name: "Booking.com", cat: "Travel", url: "https://booking.com", keywords: ["hotel", "travel", "flight", "booking"] },
+    { name: "Skyscanner", cat: "Travel", url: "https://skyscanner.net", keywords: ["flights", "travel", "cheap", "tickets"] },
+    { name: "Airbnb", cat: "Travel", url: "https://airbnb.com", keywords: ["stay", "rental", "travel", "home"] },
+    { name: "TripAdvisor", cat: "Travel", url: "https://tripadvisor.com", keywords: ["reviews", "travel", "hotels", "guide"] },
+    { name: "Expedia", cat: "Travel", url: "https://expedia.com", keywords: ["travel", "vacation", "booking", "flights"] },
 
-            // 🤖 AI (Additions)
-            { name: "Phind", cat: "AI", url: "https://phind.com", keywords: ["ai", "search", "developer", "coding", "answer"] },
-            { name: "RunwayML", cat: "AI", url: "https://runwayml.com", keywords: ["video", "ai", "editing", "generation"] },
-            { name: "Stable Diffusion", cat: "AI", url: "https://stablediffusionweb.com", keywords: ["art", "image", "generator", "ai"] },
-            { name: "ElevenLabs", cat: "AI", url: "https://elevenlabs.io", keywords: ["voice", "ai", "speech", "tts"] },
+    // 🛡️ Security
+    { name: "ProtonVPN", cat: "Security", url: "https://protonvpn.com", keywords: ["vpn", "privacy", "security", "internet"] },
+    { name: "Bitwarden", cat: "Security", url: "https://bitwarden.com", keywords: ["password", "manager", "security", "vault"] },
+    { name: "NordVPN", cat: "Security", url: "https://nordvpn.com", keywords: ["vpn", "security", "privacy", "proxy"] },
+    { name: "Malwarebytes", cat: "Security", url: "https://malwarebytes.com", keywords: ["antivirus", "malware", "security", "scan"] },
+    { name: "DuckDuckGo", cat: "Security", url: "https://duckduckgo.com", keywords: ["privacy", "search", "security", "no-tracking"] },
 
-            // 💼 WORK & PRODUCTIVITY (Additions)
-            { name: "Loom", cat: "Work", url: "https://loom.com", keywords: ["video", "screen", "recorder", "sharing"] },
-            { name: "Miro", cat: "Work", url: "https://miro.com", keywords: ["whiteboard", "collaboration", "planning", "diagram"] },
-            { name: "Buffer", cat: "Work", url: "https://buffer.com", keywords: ["social", "marketing", "scheduling", "post"] },
-            { name: "Mailchimp", cat: "Work", url: "https://mailchimp.com", keywords: ["email", "marketing", "newsletter", "campaign"] },
-            { name: "Pocket", cat: "Work", url: "https://getpocket.com", keywords: ["save", "read", "articles", "later"] },
+    // ☁️ Cloud
+    { name: "Microsoft Azure", cat: "Cloud", url: "https://azure.microsoft.com", keywords: ["cloud", "azure", "enterprise", "hosting"] },
+    { name: "Dropbox", cat: "Cloud", url: "https://dropbox.com", keywords: ["storage", "files", "cloud", "sync"] },
+    { name: "DigitalOcean", cat: "Cloud", url: "https://digitalocean.com", keywords: ["cloud", "vps", "hosting", "developer"] },
+    { name: "Box", cat: "Cloud", url: "https://box.com", keywords: ["cloud", "storage", "enterprise", "collaboration"] },
+    { name: "Heroku", cat: "Cloud", url: "https://heroku.com", keywords: ["paas", "cloud", "deploy", "developer"] },
 
-            // 💸 FINANCE (Additions)
-            { name: "Investopedia", cat: "Finance", url: "https://investopedia.com", keywords: ["learn", "finance", "stocks", "dictionary"] },
-            { name: "MarketWatch", cat: "Finance", url: "https://marketwatch.com", keywords: ["news", "stocks", "market", "economy"] },
-            { name: "OpenSea", cat: "Finance", url: "https://opensea.io", keywords: ["nft", "crypto", "art", "blockchain"] },
-            { name: "Etherscan", cat: "Finance", url: "https://etherscan.io", keywords: ["ethereum", "blockchain", "explorer", "crypto"] },
+    // 🌐 Browser
+    { name: "Brave", cat: "Browser", url: "https://brave.com", keywords: ["browser", "privacy", "crypto", "fast"] },
+    { name: "Arc Browser", cat: "Browser", url: "https://arc.net", keywords: ["browser", "productivity", "creative", "ui"] },
+    { name: "Firefox", cat: "Browser", url: "https://mozilla.org/firefox", keywords: ["browser", "open-source", "privacy"] },
+    { name: "Vivaldi", cat: "Browser", url: "https://vivaldi.com", keywords: ["browser", "customization", "features"] },
+    { name: "Opera GX", cat: "Browser", url: "https://opera.com/gx", keywords: ["browser", "gaming", "customization"] },
 
-            // 🎮 GAMES & MEDIA (Additions)
-            { name: "2048", cat: "Games", url: "https://play2048.co", keywords: ["puzzle", "numbers", "game", "fun"] },
-            { name: "Agar.io", cat: "Games", url: "https://agar.io", keywords: ["multiplayer", "io", "game", "online"] },
-            { name: "Letterboxd", cat: "Media", url: "https://letterboxd.com", keywords: ["movies", "reviews", "ratings", "films"] },
-            { name: "IMDb", cat: "Media", url: "https://imdb.com", keywords: ["movies", "database", "actors", "series"] },
-            { name: "Mixcloud", cat: "Media", url: "https://mixcloud.com", keywords: ["radio", "dj", "mix", "audio", "music"] },
+    // 🏛️ Government
+    { name: "USA.gov", cat: "Government", url: "https://usa.gov", keywords: ["government", "usa", "services"] },
+    { name: "GOV.UK", cat: "Government", url: "https://gov.uk", keywords: ["government", "uk", "services"] },
+    { name: "Digital India", cat: "Government", url: "https://digitalindia.gov.in", keywords: ["government", "india", "digital"] },
+    { name: "EU Portal", cat: "Government", url: "https://european-union.europa.eu", keywords: ["government", "europe", "eu"] },
 
-            // 🎓 EDUCATION (Additions)
-            { name: "Ted Ed", cat: "Edu", url: "https://ed.ted.com", keywords: ["lessons", "videos", "learning", "education"] },
-            { name: "Brilliant", cat: "Edu", url: "https://brilliant.org", keywords: ["math", "science", "logic", "interactive"] },
-            { name: "Wolfram Physics", cat: "Edu", url: "https://wolframphysics.org", keywords: ["physics", "science", "theory", "research"] },
-            { name: "Goodreads", cat: "Edu", url: "https://goodreads.com", keywords: ["books", "reading", "reviews", "library"] },
+    // 🔬 Science
+    { name: "Nature", cat: "Science", url: "https://nature.com", keywords: ["science", "journal", "research", "biology"] },
+    { name: "ScienceMag", cat: "Science", url: "https://science.org", keywords: ["science", "research", "articles", "news"] },
+    { name: "Phys.org", cat: "Science", url: "https://phys.org", keywords: ["physics", "science", "technology", "news"] },
+    { name: "The Lancet", cat: "Science", url: "https://thelancet.com", keywords: ["medical", "science", "health", "research"] },
+    { name: "PubMed Central", cat: "Science", url: "https://ncbi.nlm.nih.gov/pmc", keywords: ["medical", "research", "papers", "science"] },
+    // 📰 News (Deep Dive & Bias Tracking)
+    { name: "Ground News", cat: "News", url: "https://ground.news", keywords: ["bias-check", "politics", "analysis", "compare"] },
+    { name: "Artifact", cat: "News", url: "https://artifact.news", keywords: ["ai", "personalized", "tech", "curated"] },
 
-            // 🛠️ UTILITIES (Additions)
-            { name: "CloudConvert", cat: "Utils", url: "https://cloudconvert.com", keywords: ["convert", "file", "video", "audio", "pdf"] },
-            { name: "Wolfram Cloud", cat: "Utils", url: "https://wolframcloud.com", keywords: ["computation", "math", "data", "programming"] },
-            { name: "Temp Mail", cat: "Utils", url: "https://temp-mail.org", keywords: ["disposable", "email", "temporary", "spam"] },
-            { name: "Wayback Machine", cat: "Utils", url: "https://archive.org/web/", keywords: ["history", "internet", "archive", "old"] },
-            { name: "DuckDuckGo", cat: "Utils", url: "https://duckduckgo.com", keywords: ["search", "privacy", "engine"] },
+    // 🛍️ Shopping (Price Tracking & Global)
+    { name: "CamelCamelCamel", cat: "Shopping", url: "https://camelcamelcamel.com", keywords: ["amazon", "price-tracker", "deals", "alerts"] },
+    { name: "Rakuten", cat: "Shopping", url: "https://rakuten.com", keywords: ["cashback", "coupons", "rewards", "shopping"] },
 
-            // 📰 NEWS & BLOGS
-            { name: "The Verge", cat: "News", url: "https://theverge.com", keywords: ["tech", "gadgets", "science", "news"] },
-            { name: "TechCrunch", cat: "News", url: "https://techcrunch.com", keywords: ["startup", "tech", "funding", "news"] },
-            { name: "Hacker News", cat: "News", url: "https://news.ycombinator.com", keywords: ["tech", "coding", "startup", "articles"] },
+    // 🏥 Health (Research & Records)
+    { name: "HealtheLife", cat: "Health", url: "https://healthelife.com", keywords: ["medical-records", "patient-portal", "health", "doctors"] },
+    { name: "Examine.com", cat: "Health", url: "https://examine.com", keywords: ["supplements", "nutrition", "research", "science"] },
 
-            // 🛍️ SHOPPING & SERVICES
-            { name: "AliExpress", cat: "Shopping", url: "https://aliexpress.com", keywords: ["buy", "ecommerce", "cheap", "global"] },
-            { name: "Etsy", cat: "Shopping", url: "https://etsy.com", keywords: ["handmade", "vintage", "crafts", "shop"] },
-            { name: "Fiverr", cat: "Work", url: "https://fiverr.com", keywords: ["freelance", "services", "gig", "design"] },
-            { name: "Upwork", cat: "Work", url: "https://upwork.com", keywords: ["freelance", "jobs", "hire", "work"] },
+    // ✈️ Travel (Itinerary & Local)
+    { name: "TripIt", cat: "Travel", url: "https://tripit.com", keywords: ["itinerary", "organizer", "travel", "planner"] },
+    { name: "Rome2Rio", cat: "Travel", url: "https://rome2rio.com", keywords: ["transport", "routes", "travel", "global"] },
 
-            // 🏥 HEALTH & WELLNESS
-            { name: "Calm", cat: "Health", url: "https://calm.com", keywords: ["meditation", "sleep", "relax", "wellness"] },
-            { name: "Headspace", cat: "Health", url: "https://headspace.com", keywords: ["meditation", "mindfulness", "health"] },
-            { name: "Strava", cat: "Health", url: "https://strava.com", keywords: ["running", "cycling", "fitness", "tracking"] },
-            { name: "MyFitnessPal", cat: "Health", url: "https://myfitnesspal.com", keywords: ["diet", "calories", "fitness", "tracking"] },
+    // 🛡️ Security (Encryption & Protection)
+    { name: "Tuta", cat: "Security", url: "https://tuta.com", keywords: ["email", "encrypted", "privacy", "security"] },
+    { name: "NextDNS", cat: "Security", url: "https://nextdns.io", keywords: ["firewall", "dns", "privacy", "ad-block"] },
+
+    // ☁️ Cloud (Database & Deployment)
+    { name: "Railway", cat: "Cloud", url: "https://railway.app", keywords: ["deploy", "paas", "developer", "hosting"] },
+
+    // 🌐 Browser (Niche Productivity)
+    { name: "Sidekick", cat: "Browser", url: "https://meetsidekick.com", keywords: ["browser", "productivity", "work-tabs", "fast"] },
+
+    // 🔬 Science (Advanced Research)
+    { name: "Connected Papers", cat: "Science", url: "https://connectedpapers.com", keywords: ["research", "visual-map", "science", "citations"] },
+    
 ];

@@ -150,7 +150,7 @@ h1 {
 }
 
 .sidebar-footer {
-    margin-top: auto;
+    margin-top: 20px;
     font-size: 10px;
     text-align: center;
     color: #94a3b8;
@@ -493,4 +493,21 @@ body.menu-open .mobile-header {
         opacity: 1;
         visibility: visible;
     }
+}
+
+/* =========================================
+   FIX LOGO OVERLAP WHEN SIDEBAR IS OPEN
+========================================= */
+
+body.menu-open .mobile-header {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+body.menu-open .sidebar {
+    z-index: 1200;
+}
+.mobile-header {
+    transition: opacity 0.5s ease;
 }
