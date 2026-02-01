@@ -41,28 +41,21 @@ function getTimeSlot() {
 
 function getAppIcon(app) {
 
-    // 1️⃣ Explicit icon provided (root OR any path)
-    if (app.icon) {
-        // If icon is relative (like "app1.png"), make it root-safe
-        if (!app.icon.startsWith("http") && !app.icon.startsWith("/")) {
-            return "./" + app.icon;
-        }
-        return app.icon;
-    }
+    // 1️⃣ Use icon defined in apps-data.js
+    if (app.icon) return app.icon;
 
-    // 2️⃣ Local HTML apps fallback
+    // 2️⃣ Local HTML files (games, tools)
     if (!app.url.startsWith("http")) {
-        return "./app1.png"; // default local icon
+        return "assets/icons/local-game.png";
     }
 
-    // 3️⃣ Web favicon fallback
+    // 3️⃣ Website favicon fallback
     try {
         return `https://www.google.com/s2/favicons?sz=128&domain=${new URL(app.url).hostname}`;
     } catch {
-        return "./app1.png";
+        return "assets/icons/default.png";
     }
 }
-
 
 
 
@@ -114,7 +107,7 @@ function filterByCategory(cat, btn) {
         : appData.filter(app => app.cat === cat);
 
     renderApps(filtered);
-    ();
+    renderRecentApps();
     renderRecommendations();
 }
 
@@ -133,7 +126,7 @@ function renderApps(list) {
             // ✅ safe icon logic
             let icon;
             if (isLocal) {
-                icon = "app1.png"; // local game icon
+                icon = "assets/game1-icon.png"; // local game icon
             } else {
                 icon = `https://www.google.com/s2/favicons?sz=128&domain=${new URL(app.url).hostname}`;
             }
@@ -183,7 +176,9 @@ return;
     recentGrid.innerHTML = recent.map(app => {
 
         const isLocal = !app.url.startsWith("http");
-        const icon = getAppIcon(app);
+        const icon = isLocal
+            ? "assets/game1-icon.png"
+            : `https://www.google.com/s2/favicons?sz=128&domain=${new URL(app.url).hostname}`;
 
         return `
             <a class="app-card glass"
@@ -223,7 +218,9 @@ function renderRecommendations() {
     container.innerHTML = recommended.map(app => {
 
         const isLocal = !app.url.startsWith("http");
-        const icon = getAppIcon(app);
+        const icon = isLocal
+            ? "assets/games1-icon.png"
+            : `https://www.google.com/s2/favicons?sz=128&domain=${new URL(app.url).hostname}`;
 
         return `
             <a class="app-card glass"

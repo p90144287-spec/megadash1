@@ -1,9 +1,16 @@
 window.APP_DATA = [
     {
   name: "Calc Ballon",
-  cat: "Our apps",
+  cat: "Our other apps",
   url: "game1.html",
-  icon: "./app1.png",
+  icon: "assets/game1-icon.png",
+  keywords: ["game", "html", "fun", "local"]
+},
+{
+  name: "Calc Ballon",
+  cat: "Our other apps",
+  url: "game1.html",
+  icon: "assets/game-icon.png",
   keywords: ["game", "html", "fun", "local"]
 },
 

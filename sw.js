@@ -7,9 +7,8 @@ const ASSETS = [
   "./script.js",     // Add this
   "./apps-data.js",   // Add this (critical for your app)
   "./game1.html",
-  "./app1.png",
   "./manifest.json",
-  "./icon.png",
+  "./icon.png"
 ];
 
 
