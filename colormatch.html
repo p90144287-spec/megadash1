@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Match Switch</title>
+
+<meta name="description" content="Play fun and challenging brain games online! Includes memory games, math balloon games, number speed tap, and train color puzzle. Boost focus and memory while having fun.">
+
+<!-- Meta Keywords -->
+<meta name="keywords" content="brain games, memory game, math game, number speed tap, pattern repeat game, train puzzle game, online games for kids, cognitive games, mobile games">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Color Match Switch">
+<meta property="og:description" content="Play challenging brain games online including memory games, math balloons, number speed tap, and train puzzle game.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yourwebsite.com">
+<meta property="og:image" content="https://yourwebsite.com/preview.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Brain Games Hub | Fun Memory & Math Games">
+<meta name="twitter:description" content="Boost your memory and focus with fun brain games!">
+<meta name="twitter:image" content="https://yourwebsite.com/preview.png">
+
+<link rel="icon" href="icon.jpg" sizes="32x32" type="image/png">
+
+
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle, #1f2b46, #0f172a);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #fff;
+}
+
+.game {
+  width: 92%;
+  max-width: 420px;
+  background: rgba(0,0,0,0.45);
+  padding: 20px;
+  border-radius: 18px;
+  text-align: center;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.word {
+  font-size: 46px;
+  font-weight: bold;
+  margin: 35px 0;
+  transition: transform 0.15s ease;
+}
+
+.pop {
+  transform: scale(1.2);
+}
+
+.buttons {
+  display: flex;
+  gap: 15px;
+}
+
+button {
+  flex: 1;
+  padding: 16px;
+  font-size: 18px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.true { background: #2ecc71; color: #000; }
+.false { background: #e74c3c; color: #000; }
+
+.timer {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.game-over {
+  display: none;
+  margin-top: 20px;
+}
+
+.game-over button {
+  background: #00c6ff;
+  color: #000;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+  <h2>Color Match Switch</h2>
+
+  <div class="top">
+    <div>Score: <span id="score">0</span></div>
+    <div>Level: <span id="level">1</span></div>
+  </div>
+
+  <div class="word" id="word">READY</div>
+
+  <div class="buttons">
+    <button class="true" onclick="check(true)">TRUE</button>
+    <button class="false" onclick="check(false)">FALSE</button>
+  </div>
+
+  <div class="timer">
+    Time Left: <span id="time">5</span>s
+  </div>
+
+  <div class="game-over" id="gameOver">
+    <h3>Game Over</h3>
+    <button onclick="restart()">Restart</button>
+  </div>
+</div>
+
+<script>
+const colors = ["RED","BLUE","GREEN","YELLOW","PURPLE","ORANGE"];
+const map = {
+  RED:"red", BLUE:"blue", GREEN:"green",
+  YELLOW:"yellow", PURPLE:"purple", ORANGE:"orange"
+};
+
+let score = 0;
+let level = 1;
+let correctAnswer = false;
+
+let roundTime = 3;
+let timeLeft = roundTime;
+let timerInterval;
+
+const wordEl = document.getElementById("word");
+const scoreEl = document.getElementById("score");
+const levelEl = document.getElementById("level");
+const timeEl = document.getElementById("time");
+const gameOverEl = document.getElementById("gameOver");
+
+function vibrate(ms) {
+  if (navigator.vibrate) navigator.vibrate(ms);
+}
+
+function newRound() {
+  const word = colors[Math.floor(Math.random() * colors.length)];
+  let color;
+
+  if (Math.random() > 0.5) {
+    color = word;
+    correctAnswer = true;
+  } else {
+    color = colors[Math.floor(Math.random() * colors.length)];
+    correctAnswer = (color === word);
+  }
+
+  wordEl.textContent = word;
+  wordEl.style.color = map[color];
+  wordEl.classList.add("pop");
+  setTimeout(() => wordEl.classList.remove("pop"), 150);
+
+  resetTimer();
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timeLeft = Math.max(2, roundTime - Math.floor(level / 3));
+  timeEl.textContent = timeLeft;
+
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    timeEl.textContent = timeLeft;
+    if (timeLeft <= 0) endGame();
+  }, 1000);
+}
+
+function check(userChoice) {
+  if (userChoice === correctAnswer) {
+    score++;
+    scoreEl.textContent = score;
+    vibrate(40);
+
+    if (score % 10 === 0) {
+      level++;
+      levelEl.textContent = level;
+    }
+
+    newRound(); // NEXT ROUND ONLY AFTER CLICK
+  } else {
+    vibrate(200);
+    endGame();
+  }
+}
+
+function endGame() {
+  clearInterval(timerInterval);
+  gameOverEl.style.display = "block";
+}
+
+function restart() {
+  score = 0;
+  level = 1;
+  scoreEl.textContent = score;
+  levelEl.textContent = level;
+  gameOverEl.style.display = "none";
+  newRound();
+}
+
+newRound();
+</script>
+
+</body>
+</html>

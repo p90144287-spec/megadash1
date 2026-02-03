@@ -2,13 +2,66 @@ const CACHE_NAME = "megadash-v3";
 
 const ASSETS = [
   "./",
+  
   "./index.html",
-  "./style.css",      // Add this
-  "./script.js",     // Add this
-  "./apps-data.js",   // Add this (critical for your app)
-  "./game1.html",
+  
+  "./style.css",
+  
+  "./script.js",
+  
+  "./apps-data.js",
+  
   "./manifest.json",
-  "./icon.png"
+  
+  "./icon.png",
+  
+  "./calcballon.png",
+  
+  "./calcballon.html",
+  
+  "./colorpathpuzzel.png",
+  
+  "./Color-Path-Puzzle.html",
+  
+  "./colormatch.png",
+  
+  "./colorpathpuzzel.html",
+  
+  "./colormatch.html",
+  
+  "./hiddenpairnum.png",
+  
+  "./Hidden-Pair-Numbers.html",
+  
+  "./fastcolortap.png",
+  
+  "./fast-color-tap.html",
+  
+  "./patternrepeat.html",
+  
+  "./patternrepeat.png",
+  
+  "./Odd-Even.html",
+  
+  "./oddoreven.png",
+  
+  "./numbertab.png",
+  
+  "./numbertab.html",
+  
+  "./whackcorrectnum.png",
+  
+  "./whack-correct-number.html",
+  
+  "./todoapp.html",
+  
+  "./todoapp.png",
+  
+  "./positionmemory.png",
+  
+  "./memory-position.html",
+  
+  
 ];
 
 

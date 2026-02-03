@@ -2,20 +2,91 @@ window.APP_DATA = [
     {
   name: "Calc Ballon",
   cat: "Our other apps",
-  url: "game1.html",
-  icon: "assets/game1-icon.png",
-  keywords: ["game", "html", "fun", "local"]
+  url: "calcballon.html",
+  icon: "calcballon.png",
+  keywords: ["game", "html", "fun", "local", "offline apps", "offline games"]
 },
 {
-  name: "Calc Ballon",
+  name: "Odd-Even",
   cat: "Our other apps",
-  url: "game1.html",
-  icon: "assets/game-icon.png",
-  keywords: ["game", "html", "fun", "local"]
+  url: "Odd–Even.html",
+  icon: "oddoreven.png",
+  keywords: ["game", "html", "fun", "local", "offline apps", "offline games"]
+},
+//here
+{
+  name: "Color Path",
+  cat: "Our other apps",
+  url: "Color-Path-Puzzle.html",
+  icon: "colorpathpuzzel.png",
+  keywords: ["game", "html", "fun", "local", "offline apps", "offline games"]
+},
+{
+  name: "Color Match",
+  cat: "Our other apps",
+  url: "colormatch.html",
+  icon: "colormatch.png",
+  keywords: ["game", "html", "fun", "local", "offline apps", "offline games"]
+},
+{
+  name: "Fast Color Tap",
+  cat: "Our other apps",
+  url: "fast-color-tap.html",
+  icon: "fastcolortap.png",
+  keywords: ["game", "html", "fun", "local", "offline apps", "offline games"]
+},
+{
+  name: "Hidden Pair Numbers",
+  cat: "Our other apps",
+  url: "Hidden-Pair-Numbers.html",
+  icon: "hiddenpairnum.png",
+  keywords: ["game", "html", "fun", "local", "offline apps", "offline games"]
+},
+{
+  name: "Position Memory",
+  cat: "Our other apps",
+  url: "memory-position.html",
+  icon: "positionmemory.png",
+  keywords: ["game", "html", "fun", "local", "offline apps", "offline games"]
+},
+{
+  name: "Number Tap",
+  cat: "Our other apps",
+  url: "numbertab.html",
+  icon: "numbertab.png",
+  keywords: ["game", "html", "fun", "local", "offline apps", "offline games"]
+},
+{
+  name: "Pattern Repeat",
+  cat: "Our other apps",
+  url: "patternrepeat.html",
+  icon: "patternrepeat.png",
+  keywords: ["game", "html", "fun", "local", "offline apps", "offline games"]
+},
+{
+  name: "Whack Correct Num",
+  cat: "Our other apps",
+  url: "whack-correct-number.html",
+  icon: "whackcorrectnum.png",
+  keywords: ["game", "html", "fun", "local", "offline apps", "offline games"]
 },
 
+//new here
+{
+  name: "To-Do-App",
+  cat: "Our other apps",
+  url: "todoapp.html",
+  icon: "todoapp.png",
+  keywords: ["App", "html", "fun", "local", "offline apps", "offline", "To-Do-App"]
+},
+
+
+
+
+
     // 🤖 AI
-    { name: "ChatGPT", cat: "AI", url: "https://chatgpt.com", keywords: ["ai", "chatbot", "gpt", "assistant"] },
+    { name: "ChatGPT", cat: "AI", url: "https://chatgpt.com",icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShxZjskEEOO6ScrRX6P6MdjqBP-QogN1MzdQ&s"
+    , keywords: ["ai", "chatbot", "gpt", "assistant"] },
     { name: "Claude", cat: "AI", url: "https://claude.ai", keywords: ["ai", "chatbot", "anthropic"] },
     { name: "Perplexity", cat: "AI", url: "https://perplexity.ai", keywords: ["ai", "chatbot", "search", "assistant"] },
     { name: "Gemini", cat: "AI", url: "https://gemini.google.com", keywords: ["ai", "google", "assistant"] },
@@ -71,7 +142,7 @@ window.APP_DATA = [
     { name: "Discord", cat: "Social", url: "https://discord.com", keywords: ["chat", "community", "gaming"] },
     { name: "TikTok", cat: "Social", url: "https://tiktok.com", keywords: ["shorts", "video", "entertainment"] },
     { name: "Telegram", cat: "Social", url: "https://web.telegram.org", keywords: ["chat", "messenger", "social"] },
-    { name: "WhatsApp", cat: "Social", url: "https://web.whatsapp.com", keywords: ["chat", "messenger", "social"] },
+    { name: "WhatsApp", cat: "Social", url: "https://web.whatsapp.com",icon:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3P8QsuLM9M7YMzdSRyeROSW1nsNbHZWXbC0YSVgfLfw&s", keywords: ["chat", "messenger", "social"] },
     { name: "Snapchat", cat: "Social", url: "https://web.snapchat.com", keywords: ["chat", "stories", "social"] },
 
     // 🎬 Media
@@ -159,13 +230,14 @@ window.APP_DATA = [
     { name: "Chrome Web Store", cat: "Browser", url: "https://chrome.google.com/webstore", keywords: ["browser", "extensions"] },
 
     // 🏛️ Government
-    { name: "India Gov", cat: "Government", url: "https://india.gov.in", keywords: ["government", "india"] },
+    { name: "India Gov", cat: "Government", url: "https://india.gov.in",
+    icon:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShNuoR0uVWo77LDhw0QKTjL4X2SdTR3ev3FFoMqGpQhg&s",keywords: ["government", "india"] },
 
     // 🔬 Science
     { name: "NASA", cat: "Science", url: "https://www.nasa.gov", keywords: ["space", "science", "nasa"] },
     { name: "ESA (European Space Agency)", cat: "Science", url: "https://www.esa.int", keywords: ["space", "astronomy", "science"] },
     { name: "Space", cat: "Science", url: "https://www.space.com", keywords: ["space", "astronomy", "news"] },
-    { name: "Hubble Site", cat: "Science", url: "https://hubblesite.org", keywords: ["space", "telescope", "nasa"] },
+    { name: "Hubble Site", cat: "Science", url: "https://hubblesite.org",icon:"https://esahubble.org/assets/images/logo.9ab14af4d8f2.png", keywords: ["space", "telescope", "nasa"] },
     { name: "Science Daily", cat: "Science", url: "https://www.sciencedaily.com", keywords: ["science", "research", "news"] },
     { name: "Scientific American", cat: "Science", url: "https://www.scientificamerican.com", keywords: ["science", "research", "articles"] },
     { name: "CERN", cat: "Science", url: "https://home.cern", keywords: ["physics", "particles", "science"] },
@@ -248,7 +320,7 @@ window.APP_DATA = [
 
     // 🛡️ Security
     { name: "ProtonVPN", cat: "Security", url: "https://protonvpn.com", keywords: ["vpn", "privacy", "security", "internet"] },
-    { name: "Bitwarden", cat: "Security", url: "https://bitwarden.com", keywords: ["password", "manager", "security", "vault"] },
+    { name: "Bitwarden", cat: "Security", url: "https://bitwarden.com",icon:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpRODQ-L1vqYKBN6JGVbq3nPFXi_7JUGtEueP8n5aosQ&s", keywords: ["password", "manager", "security", "vault"] },
     { name: "NordVPN", cat: "Security", url: "https://nordvpn.com", keywords: ["vpn", "security", "privacy", "proxy"] },
     { name: "Malwarebytes", cat: "Security", url: "https://malwarebytes.com", keywords: ["antivirus", "malware", "security", "scan"] },
     { name: "DuckDuckGo", cat: "Security", url: "https://duckduckgo.com", keywords: ["privacy", "search", "security", "no-tracking"] },
@@ -268,7 +340,8 @@ window.APP_DATA = [
     { name: "Opera GX", cat: "Browser", url: "https://opera.com/gx", keywords: ["browser", "gaming", "customization"] },
 
     // 🏛️ Government
-    { name: "USA.gov", cat: "Government", url: "https://usa.gov", keywords: ["government", "usa", "services"] },
+    { name: "USA.gov", cat: "Government", url: "https://usa.gov",
+    icon:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQccILRIT5gJsEO5GaoQv8CEc2rT2LAJesZzvoMbas52Q&s",keywords: ["government", "usa", "services"] },
     { name: "GOV.UK", cat: "Government", url: "https://gov.uk", keywords: ["government", "uk", "services"] },
     { name: "Digital India", cat: "Government", url: "https://digitalindia.gov.in", keywords: ["government", "india", "digital"] },
     { name: "EU Portal", cat: "Government", url: "https://european-union.europa.eu", keywords: ["government", "europe", "eu"] },

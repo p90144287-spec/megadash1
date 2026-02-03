@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fast Color Tap</title>
+
+<meta name="description" content="Play fun and challenging brain games online! Includes memory games, math balloon games, number speed tap, and train color puzzle. Boost focus and memory while having fun.">
+
+<!-- Meta Keywords -->
+<meta name="keywords" content="brain games, memory game, math game, number speed tap, pattern repeat game, train puzzle game, online games for kids, cognitive games, mobile games">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Color Match Switch">
+<meta property="og:description" content="Play challenging brain games online including memory games, math balloons, number speed tap, and train puzzle game.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yourwebsite.com">
+<meta property="og:image" content="https://yourwebsite.com/preview.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Brain Games Hub | Fun Memory & Math Games">
+<meta name="twitter:description" content="Boost your memory and focus with fun brain games!">
+<meta name="twitter:image" content="https://yourwebsite.com/preview.png">
+
+<link rel="icon" href="icon.jpg" sizes="32x32" type="image/png">
+
+
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #1e1f26;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.game {
+  width: 95%;
+  max-width: 400px;
+  text-align: center;
+}
+h2 {
+  margin-bottom: 10px;
+}
+.score-board {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+.target-color {
+  font-size: 28px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+.grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, 1fr);
+}
+.button {
+  padding: 18px 0;
+  border-radius: 12px;
+  font-size: 20px;
+  cursor: pointer;
+  border: none;
+  color: #fff;
+  transition: transform 0.1s, opacity 0.2s;
+}
+.button:active {
+  transform: scale(0.95);
+  opacity: 0.8;
+}
+.timer {
+  margin-top: 12px;
+  font-size: 18px;
+}
+.game-over {
+  display: none;
+  margin-top: 15px;
+}
+button.restart {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="game">
+  <h2>Fast Color Tap</h2>
+
+  <div class="score-board">
+    <div>Score: <span id="score">0</span></div>
+    <div>Level: <span id="level">1</span></div>
+    <div>Combo: <span id="combo">0</span></div>
+  </div>
+
+  <div class="target-color" id="targetColor">RED</div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="timer">
+    Time: <span id="time">5</span>s
+  </div>
+
+  <div class="game-over" id="over">
+    <p>Game Over!</p>
+    <button class="restart" onclick="restart()">Restart</button>
+  </div>
+</div>
+
+<!-- Online sounds -->
+<audio id="correctSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" preload="auto"></audio>
+<audio id="levelUpSound" src="https://assets.mixkit.co/sfx/preview/mixkit-video-game-level-up-2059.mp3" preload="auto"></audio>
+
+<script>
+const gridEl = document.getElementById('grid');
+const targetEl = document.getElementById('targetColor');
+const scoreEl = document.getElementById('score');
+const levelEl = document.getElementById('level');
+const comboEl = document.getElementById('combo');
+const timeEl = document.getElementById('time');
+const overEl = document.getElementById('over');
+
+const correctSound = document.getElementById('correctSound');
+const wrongSound = document.getElementById('wrongSound');
+const levelUpSound = document.getElementById('levelUpSound');
+
+const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
+
+let score = 0;
+let level = 1;
+let combo = 0;
+let targetColor = '';
+let time = 5;
+let timer = null;
+
+function vibrate(ms) {
+  if (navigator.vibrate) navigator.vibrate(ms);
+}
+
+function startRound() {
+  clearInterval(timer);
+
+  // Time decreases slightly as level increases
+  time = Math.max(2, 6 - Math.floor(level/2));
+  timeEl.textContent = time;
+
+  // Random target
+  targetColor = colors[Math.floor(Math.random()*colors.length)];
+  targetEl.textContent = targetColor.toUpperCase();
+
+  // Dynamic buttons
+  gridEl.innerHTML = '';
+  const buttonsCount = Math.min(6, 2 + level);
+  const shuffledColors = colors.sort(() => Math.random()-0.5).slice(0, buttonsCount);
+
+  if(!shuffledColors.includes(targetColor)) shuffledColors[0] = targetColor;
+
+  shuffledColors.forEach(color => {
+    const btn = document.createElement('button');
+    btn.className = 'button';
+    btn.style.backgroundColor = color;
+    btn.onclick = () => check(color);
+    gridEl.appendChild(btn);
+  });
+
+  timer = setInterval(() => {
+    time--;
+    timeEl.textContent = time;
+    if(time <= 0) endGame();
+  }, 1000);
+}
+
+function check(color) {
+  if(color === targetColor){
+    correctSound.currentTime = 0;
+    correctSound.play();
+    vibrate(50);
+
+    combo++;
+    comboEl.textContent = combo;
+
+    score += combo; // Score multiplier for streaks
+    scoreEl.textContent = score;
+
+    if(combo % 5 === 0){
+      level++;
+      levelEl.textContent = level;
+      levelUpSound.play();
+    }
+
+    startRound();
+  } else {
+    wrongSound.currentTime = 0;
+    wrongSound.play();
+    vibrate(200);
+    endGame();
+  }
+}
+
+function endGame() {
+  clearInterval(timer);
+  overEl.style.display = 'block';
+}
+
+function restart() {
+  score = 0;
+  level = 1;
+  combo = 0;
+  scoreEl.textContent = score;
+  levelEl.textContent = level;
+  comboEl.textContent = combo;
+  overEl.style.display = 'none';
+  startRound();
+}
+
+startRound();
+</script>
+
+</body>
+</html>

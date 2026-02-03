@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whack the Correct Number</title>
+
+<meta name="description" content="Play fun and challenging brain games online! Includes memory games, math balloon games, number speed tap, and train color puzzle. Boost focus and memory while having fun.">
+
+<!-- Meta Keywords -->
+<meta name="keywords" content="brain games, memory game, math game, number speed tap, pattern repeat game, train puzzle game, online games for kids, cognitive games, mobile games">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Color Match Switch">
+<meta property="og:description" content="Play challenging brain games online including memory games, math balloons, number speed tap, and train puzzle game.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yourwebsite.com">
+<meta property="og:image" content="https://yourwebsite.com/preview.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Brain Games Hub | Fun Memory & Math Games">
+<meta name="twitter:description" content="Boost your memory and focus with fun brain games!">
+<meta name="twitter:image" content="https://yourwebsite.com/preview.png">
+
+<link rel="icon" href="icon.jpg" sizes="32x32" type="image/png">
+
+
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f2027;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.game {
+  width: 90%;
+  max-width: 380px;
+  background: #203a43;
+  padding: 16px;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.target {
+  margin: 15px 0;
+  font-size: 22px;
+}
+
+.target span {
+  font-size: 30px;
+  color: #00ffcc;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.cell {
+  background: #1abc9c;
+  color: #000;
+  font-size: 24px;
+  padding: 18px 0;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.timer {
+  margin-top: 12px;
+  font-size: 18px;
+}
+
+.game-over {
+  display: none;
+  margin-top: 15px;
+}
+
+button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+  <h3>Whack the Correct Number</h3>
+
+  <div class="top">
+    <div>Score: <span id="score">0</span></div>
+    <div>Time: <span id="time">5</span>s</div>
+  </div>
+
+  <div class="target">
+    Tap: <span id="target">1</span>
+  </div>
+
+  <div class="grid" id="grid">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+
+  <div class="game-over" id="over">
+    <p>Game Over</p>
+    <button onclick="restart()">Restart</button>
+  </div>
+</div>
+
+<!-- 🔊 Online sounds -->
+<audio id="correctSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" preload="auto"></audio>
+<audio id="gameOverSound" src="https://assets.mixkit.co/sfx/preview/mixkit-player-losing-or-failing-2042.mp3" preload="auto"></audio>
+
+<script>
+const cells = document.querySelectorAll(".cell");
+const targetEl = document.getElementById("target");
+const scoreEl = document.getElementById("score");
+const timeEl = document.getElementById("time");
+const overEl = document.getElementById("over");
+
+const correctSound = document.getElementById("correctSound");
+const wrongSound = document.getElementById("wrongSound");
+const gameOverSound = document.getElementById("gameOverSound");
+
+let score = 0;
+let target = 1;
+let time = 5;
+let timer = null;
+
+// Vibrate function (optional)
+function vibrate(ms) {
+  if (navigator.vibrate) navigator.vibrate(ms);
+}
+
+// Generate numbers and GUARANTEE target exists
+function randomize() {
+  target = Math.floor(Math.random() * 9) + 1;
+  targetEl.textContent = target;
+
+  let placed = false;
+
+  cells.forEach(cell => {
+    let num = Math.floor(Math.random() * 9) + 1;
+    cell.textContent = num;
+    if (num === target) placed = true;
+  });
+
+  if (!placed) {
+    const randomCell = cells[Math.floor(Math.random() * cells.length)];
+    randomCell.textContent = target;
+  }
+}
+
+// Cell click logic
+cells.forEach(cell => {
+  cell.onclick = () => {
+    if (cell.textContent == target) {
+      correctSound.currentTime = 0;
+      correctSound.play();
+      vibrate(30);
+
+      score++;
+      scoreEl.textContent = score;
+      resetTimer();
+      randomize();
+    } else {
+      wrongSound.currentTime = 0;
+      wrongSound.play();
+      vibrate(200);
+      endGame();
+    }
+  };
+});
+
+// Timer
+function resetTimer() {
+  clearInterval(timer);
+  time = 3;
+  timeEl.textContent = time;
+
+  timer = setInterval(() => {
+    time--;
+    timeEl.textContent = time;
+    if (time === 0) endGame();
+  }, 1000);
+}
+
+// End game
+function endGame() {
+  clearInterval(timer);
+  gameOverSound.play();
+  overEl.style.display = "block";
+}
+
+// Restart
+function restart() {
+  score = 0;
+  scoreEl.textContent = score;
+  overEl.style.display = "none";
+  randomize();
+  resetTimer();
+}
+
+// Start game
+randomize();
+resetTimer();
+</script>
+
+</body>
+</html>

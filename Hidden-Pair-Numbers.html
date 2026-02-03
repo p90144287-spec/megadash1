@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hidden Pair Numbers</title>
+
+<meta name="description" content="Play fun and challenging brain games online! Includes memory games, math balloon games, number speed tap, and train color puzzle. Boost focus and memory while having fun.">
+
+<!-- Meta Keywords -->
+<meta name="keywords" content="brain games, memory game, math game, number speed tap, pattern repeat game, train puzzle game, online games for kids, cognitive games, mobile games">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Color Match Switch">
+<meta property="og:description" content="Play challenging brain games online including memory games, math balloons, number speed tap, and train puzzle game.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yourwebsite.com">
+<meta property="og:image" content="https://yourwebsite.com/preview.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Brain Games Hub | Fun Memory & Math Games">
+<meta name="twitter:description" content="Boost your memory and focus with fun brain games!">
+<meta name="twitter:image" content="https://yourwebsite.com/preview.png">
+
+<link rel="icon" href="icon.jpg" sizes="32x32" type="image/png">
+
+
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #222;
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+  }
+  h1 {
+    color: #00ff99;
+    font-size: 1.6rem;
+  }
+  #level {
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+  #game {
+    display: grid;
+    gap: 5px;
+    max-width: 600px;
+    margin: 20px auto;
+  }
+  .card {
+    width: 100%;
+    aspect-ratio: 1/1;
+    background: #444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+  }
+  .card.revealed {
+    background: #00ff99;
+    color: #222;
+    cursor: default;
+  }
+  button {
+    margin-top: 20px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 6px;
+    border: none;
+    background: #00ff99;
+    color: #222;
+  }
+  @media (max-width: 500px) {
+    #game {
+      max-width: 360px;
+    }
+    .card {
+      font-size: 0.8rem;
+    }
+  }
+  @media (max-width: 350px) {
+    #game {
+      max-width: 300px;
+    }
+    .card {
+      font-size: 0.7rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>7️⃣ Hidden Pair Numbers - Levels</h1>
+<div id="level">Level: 1</div>
+<div id="game"></div>
+<button onclick="restartGame()">Restart Game</button>
+
+<script>
+const gameContainer = document.getElementById('game');
+const levelDisplay = document.getElementById('level');
+
+let level = 1;
+let cards = [];
+let revealed = [];
+let matchedPairs = 0;
+
+function startLevel() {
+  const gridSize = level + 1; // Level 1 → 2x2, Level 2 → 3x3
+  const totalCards = gridSize * gridSize;
+  const pairs = Math.floor(totalCards / 2);
+
+  const numbers = [];
+  for (let i = 1; i <= pairs; i++) numbers.push(i, i); // create pairs
+  numbers.sort(() => Math.random() - 0.5); // shuffle
+
+  // If odd number of cards, remove last card
+  if (numbers.length > totalCards) numbers.pop();
+
+  cards = numbers.map((num) => ({ number: num, revealed: false, element: null }));
+  matchedPairs = 0;
+  revealed = [];
+
+  levelDisplay.textContent = "Level: " + level;
+  gameContainer.innerHTML = '';
+  gameContainer.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+
+  cards.forEach((card, idx) => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.dataset.index = idx;
+    div.addEventListener('click', () => revealCard(idx));
+    gameContainer.appendChild(div);
+    card.element = div;
+  });
+}
+
+function revealCard(idx) {
+  const card = cards[idx];
+  if (card.revealed || revealed.length === 2) return;
+
+  card.revealed = true;
+  card.element.classList.add('revealed');
+  card.element.textContent = card.number;
+  revealed.push(idx);
+
+  if (revealed.length === 2) checkMatch();
+}
+
+function checkMatch() {
+  const [first, second] = revealed;
+  if (cards[first].number === cards[second].number) {
+    matchedPairs++;
+    revealed = [];
+    const totalPairs = Math.floor(cards.length / 2);
+    if (matchedPairs === totalPairs) {
+      setTimeout(() => {
+        alert(`🎉 Level ${level} Completed!`);
+        level++;
+        startLevel();
+      }, 200);
+    }
+  } else {
+    setTimeout(() => {
+      cards[first].revealed = false;
+      cards[second].revealed = false;
+      cards[first].element.classList.remove('revealed');
+      cards[second].element.classList.remove('revealed');
+      cards[first].element.textContent = '';
+      cards[second].element.textContent = '';
+      revealed = [];
+    }, 800);
+  }
+}
+
+function restartGame() {
+  level = 1;
+  startLevel();
+}
+
+startLevel();
+</script>
+
+</body>
+</html>

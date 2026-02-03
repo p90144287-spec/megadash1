@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Path Puzzle</title>
+
+<meta name="description" content="Play fun and challenging brain games online! Includes memory games, math balloon games, number speed tap, and train color puzzle. Boost focus and memory while having fun.">
+
+<!-- Meta Keywords -->
+<meta name="keywords" content="brain games, memory game, math game, number speed tap, pattern repeat game, train puzzle game, online games for kids, cognitive games, mobile games">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Color Match Switch">
+<meta property="og:description" content="Play challenging brain games online including memory games, math balloons, number speed tap, and train puzzle game.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yourwebsite.com">
+<meta property="og:image" content="https://yourwebsite.com/preview.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Brain Games Hub | Fun Memory & Math Games">
+<meta name="twitter:description" content="Boost your memory and focus with fun brain games!">
+<meta name="twitter:image" content="https://yourwebsite.com/preview.png">
+
+<link rel="icon" href="icon.jpg" sizes="32x32" type="image/png">
+
+
+
+<style>
+  body {
+    margin: 0;
+    padding: 15px;
+    background: #0d0d0d;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+
+  h1 { color: #ffcc00; }
+
+  #info {
+    display: flex;
+    justify-content: space-between;
+    max-width: 360px;
+    margin: 10px auto;
+    font-size: 0.95rem;
+  }
+
+  #rule {
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin: 15px 0;
+    text-shadow: 0 0 12px currentColor;
+  }
+
+  #grid {
+    display: grid;
+    gap: 6px;
+    max-width: 360px;
+    margin: auto;
+  }
+
+  .cell {
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    opacity: 0.85;
+  }
+
+  .cell.selected {
+    border-color: white;
+    opacity: 1;
+  }
+
+  button {
+    margin-top: 12px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    background: #ffcc00;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>11️⃣ Color Path Puzzle</h1>
+
+<div id="info">
+  <div>Level: <span id="level">1</span></div>
+  <div>⏱ <span id="time">10</span>s</div>
+</div>
+
+<div id="rule">RED</div>
+
+<div id="grid"></div>
+
+<button onclick="submitAnswer()">SUBMIT</button><br>
+<button onclick="restartGame()">RESTART</button>
+
+<script>
+let level = 1;
+let gridSize = 3;
+let timeLeft = 20;
+let timer;
+let targetColor;
+
+const colors = ["red", "blue", "green", "yellow", "purple"];
+const grid = document.getElementById("grid");
+
+function startLevel() {
+  clearInterval(timer);
+  grid.innerHTML = "";
+
+  gridSize = Math.min(3 + level - 1, 7);
+  timeLeft = Math.max(4, 20 - level);
+
+  document.getElementById("level").textContent = level;
+  document.getElementById("time").textContent = timeLeft;
+
+  targetColor = colors[Math.floor(Math.random() * colors.length)];
+  const rule = document.getElementById("rule");
+  rule.textContent = targetColor.toUpperCase();
+  rule.style.color = targetColor;
+
+  grid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+
+  for (let i = 0; i < gridSize * gridSize; i++) {
+    const cell = document.createElement("div");
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    cell.className = "cell";
+    cell.style.background = color;
+    cell.dataset.color = color;
+
+    cell.onclick = () => cell.classList.toggle("selected");
+    grid.appendChild(cell);
+  }
+
+  timer = setInterval(() => {
+    timeLeft--;
+    document.getElementById("time").textContent = timeLeft;
+    if (timeLeft <= 0) gameOver();
+  }, 1000);
+}
+
+function submitAnswer() {
+  clearInterval(timer);
+
+  const cells = document.querySelectorAll(".cell");
+  let correctCount = 0;
+  let selectedCorrect = 0;
+  let selectedWrong = 0;
+
+  cells.forEach(cell => {
+    const isTarget = cell.dataset.color === targetColor;
+    const isSelected = cell.classList.contains("selected");
+
+    if (isTarget) correctCount++;
+    if (isTarget && isSelected) selectedCorrect++;
+    if (!isTarget && isSelected) selectedWrong++;
+  });
+
+  if (selectedCorrect === correctCount && selectedWrong === 0) {
+    level++;
+    setTimeout(startLevel, 300);
+  } else {
+    gameOver();
+  }
+}
+
+function gameOver() {
+  alert(`Game Over!\nLevel Reached: ${level}`);
+  restartGame();
+}
+
+function restartGame() {
+  level = 1;
+  startLevel();
+}
+
+startLevel();
+</script>
+
+</body>
+</html>

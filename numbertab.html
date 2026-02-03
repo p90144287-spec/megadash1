@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Number Speed Tap</title>
+<title>Number Speed Tap Game | Brain Reflex & Number Challenge</title>
+<meta name="description" content="Tap numbers in ascending order as fast as possible. Improve your reflexes, concentration, and reaction speed in this fun brain game.">
+<meta name="keywords" content="number speed tap, brain game, reflex game, number challenge, memory and focus game, cognitive game, mobile game">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Number Speed Tap Game | Brain Reflex & Number Challenge">
+<meta property="og:description" content="Tap numbers in order as fast as possible. Boost your focus and reaction speed with this fun and addictive number game.">
+<meta property="og:type" content="game">
+<meta property="og:url" content="https://yourwebsite.com/number-speed-tap.html">
+<meta property="og:image" content="https://yourwebsite.com/number-speed-preview.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Number Speed Tap Game">
+<meta name="twitter:description" content="Tap numbers in ascending order to test your speed, reflexes, and focus.">
+<meta name="twitter:image" content="https://yourwebsite.com/number-speed-preview.png">
+
+<link rel="icon" href="icon.jpg" sizes="32x32" type="image/png">
+<style>
+* { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+body {
+  margin: 0; height: 100vh;
+  display: flex; justify-content: center; align-items: center;
+  background: linear-gradient(to bottom, #141e30, #243b55);
+  color: #fff;
+}
+#game { width: 95%; max-width: 360px; text-align: center; }
+#topBar { display: flex; justify-content: space-between; margin-bottom: 12px; }
+#grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.cell {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #2c3e50;
+  border-radius: 8px;
+  display: flex; justify-content: center; align-items: center;
+  font-size: 18px; font-weight: bold; cursor: pointer;
+  transition: transform 0.1s, background 0.2s;
+}
+.cell.correct { background: #6fff95; transform: scale(1.1); }
+.cell.wrong { background: #ff5f5f; transform: scale(1.1); }
+#message { margin-top: 10px; font-size: 14px; }
+#start { margin-top: 15px; padding: 10px 16px; border-radius: 8px; background: #00c6ff; border: none; color: #000; font-weight: bold; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div id="game">
+  <div id="topBar">
+    <div id="level">Level: 1</div>
+    <div id="score">Score: 0</div>
+    <div id="timer">Time: 20s</div>
+  </div>
+
+  <div id="grid"></div>
+  <div id="message">Tap numbers in ascending order</div>
+  <button id="start">START</button>
+</div>
+
+<script>
+// OFFLINE SOUND SYSTEM
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+const audioCtx = new AudioCtx();
+
+function beep(freq, duration = 0.15){
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.frequency.value = freq; gain.gain.value = 0.15;
+  osc.start(); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+  osc.stop(audioCtx.currentTime + duration);
+}
+
+const sounds = {
+  correct: () => beep(600,0.15),
+  wrong: () => beep(200,0.4),
+  level: () => beep(1000,0.25)
+}
+
+// GAME VARIABLES
+const grid = document.getElementById("grid");
+const levelEl = document.getElementById("level");
+const scoreEl = document.getElementById("score");
+const timerEl = document.getElementById("timer");
+const messageEl = document.getElementById("message");
+const startBtn = document.getElementById("start");
+
+let level = 1;
+let score = 0;
+let numbers = [];
+let nextNumber = 1;
+let accepting = false;
+let timeLeft = 20;
+let timerInterval;
+
+// CREATE RANDOM GRID
+function createGrid(level){
+  clearInterval(timerInterval);
+  grid.innerHTML = "";
+  const count = Math.min(5 + level, 25); // numbers in grid
+  numbers = Array.from({length: count}, (_,i)=>i+1).sort(()=>Math.random()-0.5);
+  numbers.forEach(num=>{
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    cell.textContent = num;
+    cell.addEventListener("click",()=>handleClick(num, cell));
+    grid.appendChild(cell);
+  });
+  nextNumber = 1;
+  accepting = true;
+  startTimer();
+}
+
+// TIMER LOGIC
+function startTimer(){
+  clearInterval(timerInterval);
+  timeLeft = Math.max(20 - level + 1, 5); // minimum 5s
+  timerEl.textContent = "Time: "+timeLeft+"s";
+  timerInterval = setInterval(()=>{
+    timeLeft--;
+    timerEl.textContent = "Time: "+timeLeft+"s";
+    if(timeLeft <= 0){
+      clearInterval(timerInterval);
+      sounds.wrong();
+      messageEl.textContent = "Time's up! Restarting...";
+      setTimeout(resetGame, 800);
+    }
+  },1000);
+}
+
+// HANDLE CELL CLICK
+function handleClick(num, cell){
+  if(!accepting) return;
+  if(num === nextNumber){
+    cell.classList.add("correct");
+    sounds.correct();
+    nextNumber++;
+    if(nextNumber > numbers.length){
+      accepting = false;
+      clearInterval(timerInterval);
+      score++; level++;
+      scoreEl.textContent = "Score: "+score;
+      levelEl.textContent = "Level: "+level;
+      sounds.level();
+      setTimeout(()=>{createGrid(level);},500);
+    }
+  } else {
+    cell.classList.add("wrong");
+    sounds.wrong();
+    messageEl.textContent = "Wrong! Restarting...";
+    setTimeout(resetGame, 800);
+  }
+}
+
+// RESET GAME
+function resetGame(){
+  clearInterval(timerInterval);
+  level=1; score=0;
+  levelEl.textContent="Level:1"; scoreEl.textContent="Score:0";
+  timerEl.textContent="Time:20s";
+  messageEl.textContent="Tap numbers in ascending order";
+  setTimeout(()=>createGrid(level),300);
+}
+
+// START BUTTON
+startBtn.addEventListener("click", ()=>{
+  if(audioCtx.state==="suspended") audioCtx.resume();
+  resetGame();
+});
+</script>
+
+</body>
+</html>

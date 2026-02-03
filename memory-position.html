@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Position Memory Game</title>
+<title>Position Memory Game | Brain & Reflex Training</title>
+<meta name="description" content="Test your memory and reflexes by clicking the correct boxes in a 6×6 grid. Improve focus, concentration, and pattern recognition in this fun brain game.">
+<meta name="keywords" content="memory game, position recognize game, brain training, reflex game, focus game, cognitive skills, pattern recognition, mobile brain game">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Position Memory Game | Brain & Reflex Training">
+<meta property="og:description" content="Click the correct boxes in a 6×6 grid to test your memory and reflexes. Enhance focus and pattern recognition with this fun brain game.">
+<meta property="og:type" content="game">
+<meta property="og:url" content="https://yourwebsite.com/position-memory.html">
+<meta property="og:image" content="https://yourwebsite.com/position-memory-preview.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Position Memory Game">
+<meta name="twitter:description" content="Tap the correct boxes in order to improve your memory, focus, and reflexes. Fun and challenging brain game for all ages.">
+<meta name="twitter:image" content="https://yourwebsite.com/position-memory-preview.png">
+
+
+<link rel="icon" href="icon.jpg" sizes="32x32" type="image/png">
+<style>
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(to bottom, #0f2027, #203a43);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+#game {
+  width: 95%;
+  max-width: 360px;
+}
+
+#topBar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+#grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+}
+
+.cell {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #2c3e50;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.cell.active {
+  background: #00f2fe;
+}
+
+.cell.correct {
+  background: #6fff95;
+}
+
+.cell.wrong {
+  background: #ff5f5f;
+}
+
+#message {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="game">
+  <div id="topBar">
+    <div id="level">Level: 1</div>
+    <div id="score">Score: 0</div>
+  </div>
+
+  <div id="grid"></div>
+
+  <div id="message">Memorize the highlighted boxes</div>
+</div>
+
+<script>
+const grid = document.getElementById("grid");
+const levelEl = document.getElementById("level");
+const scoreEl = document.getElementById("score");
+const messageEl = document.getElementById("message");
+
+let level = 1;
+let score = 0;
+let activeCells = [];
+let userClicks = [];
+let acceptingInput = false;
+
+const GRID_SIZE = 36; // 6x6
+
+function createGrid() {
+  grid.innerHTML = "";
+  for (let i = 0; i < GRID_SIZE; i++) {
+    const cell = document.createElement("div");
+    cell.className = "cell";
+    cell.dataset.index = i;
+    cell.addEventListener("click", () => handleClick(i, cell));
+    grid.appendChild(cell);
+  }
+}
+
+function startLevel() {
+  acceptingInput = false;
+  userClicks = [];
+  activeCells = [];
+
+  const highlightCount = Math.min(3 + level, 12);
+
+  while (activeCells.length < highlightCount) {
+    const rand = Math.floor(Math.random() * GRID_SIZE);
+    if (!activeCells.includes(rand)) activeCells.push(rand);
+  }
+
+  messageEl.textContent = "Memorize the boxes";
+
+  activeCells.forEach(i => {
+    grid.children[i].classList.add("active");
+  });
+
+  setTimeout(() => {
+    activeCells.forEach(i => {
+      grid.children[i].classList.remove("active");
+    });
+    messageEl.textContent = "Now tap the boxes";
+    acceptingInput = true;
+  }, 1200 + level * 200);
+}
+
+function handleClick(index, cell) {
+  if (!acceptingInput) return;
+  if (userClicks.includes(index)) return;
+
+  if (activeCells.includes(index)) {
+    cell.classList.add("correct");
+    userClicks.push(index);
+
+    if (userClicks.length === activeCells.length) {
+      score++;
+      level++;
+      scoreEl.textContent = "Score: " + score;
+      levelEl.textContent = "Level: " + level;
+
+      setTimeout(() => {
+        clearGrid();
+        startLevel();
+      }, 800);
+    }
+  } else {
+    cell.classList.add("wrong");
+    messageEl.textContent = "Wrong box! Game restarting...";
+    setTimeout(resetGame, 1000);
+  }
+}
+
+function clearGrid() {
+  document.querySelectorAll(".cell").forEach(cell => {
+    cell.className = "cell";
+  });
+}
+
+function resetGame() {
+  level = 1;
+  score = 0;
+  levelEl.textContent = "Level: 1";
+  scoreEl.textContent = "Score: 0";
+  messageEl.textContent = "Memorize the highlighted boxes";
+  clearGrid();
+  startLevel();
+}
+
+createGrid();
+startLevel();
+</script>
+
+</body>
+</html>

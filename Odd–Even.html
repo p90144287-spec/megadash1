@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Odd–Even Rush</title>
+
+<meta name="description" content="Play fun and challenging brain games online! Includes memory games, math balloon games, number speed tap, and train color puzzle. Boost focus and memory while having fun.">
+
+<!-- Meta Keywords -->
+<meta name="keywords" content="brain games, memory game, math game, number speed tap, pattern repeat game, train puzzle game, online games for kids, cognitive games, mobile games">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Color Match Switch">
+<meta property="og:description" content="Play challenging brain games online including memory games, math balloons, number speed tap, and train puzzle game.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yourwebsite.com">
+<meta property="og:image" content="https://yourwebsite.com/preview.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Brain Games Hub | Fun Memory & Math Games">
+<meta name="twitter:description" content="Boost your memory and focus with fun brain games!">
+<meta name="twitter:image" content="https://yourwebsite.com/preview.png">
+
+<link rel="icon" href="icon.jpg" sizes="32x32" type="image/png">
+
+
+
+<style>
+  body {
+    margin: 0;
+    padding: 15px;
+    font-family: Arial, sans-serif;
+    background: #0b0b0b;
+    color: #fff;
+    text-align: center;
+  }
+
+  h1 {
+    color: #ffcc00;
+  }
+
+  #info {
+    display: flex;
+    justify-content: space-between;
+    max-width: 320px;
+    margin: 10px auto;
+    font-size: 0.95rem;
+  }
+
+  #clickType {
+    font-size: 2.3rem;
+    font-weight: bold;
+    margin: 15px 0;
+    color: #00ffff;
+    text-shadow: 0 0 12px #00ffff, 0 0 25px #00ffff;
+  }
+
+  #grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 320px;
+    margin: 20px auto;
+  }
+
+  .box {
+    aspect-ratio: 1 / 1;
+    background: #222;
+    border-radius: 10px;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    border: 2px solid transparent;
+    transition: 0.2s;
+  }
+
+  .box.selected {
+    border-color: #00ffff;
+    box-shadow: 0 0 12px #00ffff;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background: #ffcc00;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 400px) {
+    .box { font-size: 1.6rem; }
+    #clickType { font-size: 1.9rem; }
+  }
+</style>
+</head>
+
+<body>
+
+<h1>9️⃣ Odd–Even Rush</h1>
+
+<div id="info">
+  <div>Level: <span id="level">1</span></div>
+  <div>⏱ <span id="time">8.0</span>s</div>
+  <div>Score: <span id="score">0</span></div>
+</div>
+
+<div id="clickType">EVEN</div>
+
+<div id="grid"></div>
+
+<button onclick="submitAnswer()">SUBMIT</button>
+<br>
+<button onclick="restartGame()">RESTART</button>
+
+<script>
+let level = 1;
+let score = 0;
+let requiredType = "Even";
+let numbers = [];
+let timer;
+let timeLeft;
+
+const grid = document.getElementById("grid");
+
+function startLevel() {
+  clearInterval(timer);
+  grid.innerHTML = "";
+  numbers = [];
+
+  requiredType = Math.random() > 0.5 ? "Even" : "Odd";
+  document.getElementById("clickType").textContent = requiredType.toUpperCase();
+  document.getElementById("level").textContent = level;
+  document.getElementById("score").textContent = score;
+
+  // TIMER SETTINGS
+  timeLeft = Math.max(3, 8 - level * 0.4);
+  document.getElementById("time").textContent = timeLeft.toFixed(1);
+
+  timer = setInterval(() => {
+    timeLeft -= 0.1;
+    document.getElementById("time").textContent = timeLeft.toFixed(1);
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      gameOver();
+    }
+  }, 100);
+
+  let maxNum = 10 + level * 6;
+
+  while (numbers.length < 4) {
+    numbers.push(Math.floor(Math.random() * maxNum) + 1);
+  }
+
+  numbers.forEach((num, index) => {
+    const box = document.createElement("div");
+    box.className = "box";
+    box.textContent = num;
+    box.dataset.index = index;
+
+    box.onclick = () => box.classList.toggle("selected");
+    grid.appendChild(box);
+  });
+}
+
+function submitAnswer() {
+  clearInterval(timer);
+
+  let correctCount = 0;
+  let selectedCorrect = 0;
+  let selectedWrong = 0;
+
+  numbers.forEach((num, i) => {
+    const isCorrect =
+      (num % 2 === 0 && requiredType === "Even") ||
+      (num % 2 !== 0 && requiredType === "Odd");
+
+    const box = document.querySelector(`.box[data-index="${i}"]`);
+    const selected = box.classList.contains("selected");
+
+    if (isCorrect) correctCount++;
+    if (isCorrect && selected) selectedCorrect++;
+    if (!isCorrect && selected) selectedWrong++;
+  });
+
+  if (selectedCorrect === correctCount && selectedWrong === 0) {
+    score++;
+    level++;
+    setTimeout(startLevel, 300);
+  } else {
+    gameOver();
+  }
+}
+
+function gameOver() {
+  alert(`Game Over!\nScore: ${score}\nLevel: ${level}`);
+  restartGame();
+}
+
+function restartGame() {
+  clearInterval(timer);
+  level = 1;
+  score = 0;
+  startLevel();
+}
+
+startLevel();
+</script>
+
+</body>
+</html>
