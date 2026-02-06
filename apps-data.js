@@ -295,7 +295,6 @@ window.APP_DATA = [
     { name: "Reuters", cat: "News", url: "https://reuters.com", keywords: ["news", "finance", "business", "global"] },
     { name: "The Verge", cat: "News", url: "https://theverge.com", keywords: ["tech", "gadgets", "science", "news"] },
     { name: "Inkl", cat: "News", url: "https://inkl.com", keywords: ["news", "curated", "premium", "headlines"] },
-    { name: "Ground News", cat: "News", url: "https://ground.news", keywords: ["news", "bias-check", "politics", "analysis"] },
 
     // 🛍️ Shopping
     { name: "AliExpress", cat: "Shopping", url: "https://aliexpress.com", keywords: ["shopping", "global", "deals", "ecommerce"] },
@@ -354,7 +353,7 @@ window.APP_DATA = [
     { name: "PubMed Central", cat: "Science", url: "https://ncbi.nlm.nih.gov/pmc", keywords: ["medical", "research", "papers", "science"] },
     // 📰 News (Deep Dive & Bias Tracking)
     { name: "Ground News", cat: "News", url: "https://ground.news", keywords: ["bias-check", "politics", "analysis", "compare"] },
-    { name: "Artifact", cat: "News", url: "https://artifact.news", keywords: ["ai", "personalized", "tech", "curated"] },
+    { name: "Artifact", cat: "News", url: "https://artifact.news",icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv7GIgtM4NYSTz9Sixv14WRr8Qo5C1R76bg5dj23Dw6Q&s=10", keywords: ["ai", "personalized", "tech", "curated"] },
 
     // 🛍️ Shopping (Price Tracking & Global)
     { name: "CamelCamelCamel", cat: "Shopping", url: "https://camelcamelcamel.com", keywords: ["amazon", "price-tracker", "deals", "alerts"] },

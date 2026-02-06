@@ -9,15 +9,24 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background:
-        radial-gradient(1200px 600px at 10% 10%, #1e40af33, transparent 60%),
-        radial-gradient(900px 500px at 90% 20%, #7c3aed33, transparent 60%),
-        linear-gradient(135deg, #020617, #0f172a);
-    color: #e5e7eb;
-    min-height: 100vh;
-    overflow-x: hidden;
+    background: #020617;
+    background-image: 
+        radial-gradient(at 0% 0%, hsla(222,47%,11%,1) 0, transparent 50%), 
+        radial-gradient(at 50% 0%, hsla(217,100%,13%,1) 0, transparent 50%), 
+        radial-gradient(at 100% 0%, hsla(230,100%,13%,1) 0, transparent 50%),
+        radial-gradient(at 50% 100%, #1e40af33 0, transparent 50%);
+        color: white;
+    /* Animation creates a shifting light effect */
+    background-size: 200% 200%;
+    animation: gradientMove 15s ease infinite;
 }
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 
 h1 { letter-spacing: -0.03em; }
 .subtitle { opacity: .85; font-size: 13px; color: #60a5fa; }
@@ -27,12 +36,20 @@ h1 { letter-spacing: -0.03em; }
 ========================================= */
 .glass {
     background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(15px) saturate(160%);
+    -webkit-backdrop-filter: blur(15px) saturate(160%);
+    
+    /* The "Edge" light effect */
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Inner glow for depth */
+    box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.1),
+        0 10px 20px rgba(0, 0, 0, 0.3);
+        
+    border-radius: 16px;
 }
+
 
 /* =========================================
    LAYOUT STRUCTURE
@@ -125,43 +142,58 @@ h1 { letter-spacing: -0.03em; }
 /* =========================================
    3D REALISTIC SCROLL SECTIONS (Recent/Recommended)
 ========================================= */
+/* 3D WHEEL CONTAINER */
 .recent-section {
-    perspective: 1000px; /* Essential for 3D */
-    margin-bottom: 35px;
-    width: 100%;
+    perspective: 1200px; 
+    margin-bottom: 50px;
+    padding: 40px 0;
+    overflow: hidden; /* Clips the back of the wheel if needed */
 }
 
 .recent-title {
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 14px;
+    margin-left: 20px;
     color: #e5e7eb;
 }
 
 .recent-grid {
     display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 20px;
-    padding: 20px 10px;
-    scrollbar-width: none; /* Hide scrollbar Firefox */
-    -webkit-overflow-scrolling: touch;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
     transform-style: preserve-3d;
+    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Initial position */
+    transform: translateZ(-250px) rotateX(-5deg); 
 }
 
 .recent-grid::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
 
+/* THE INDIVIDUAL IMAGE CARDS */
 .recent-grid .app-card {
-    flex: 0 0 125px; /* Fixed width for carousel items */
-    padding: 18px 10px;
-    transform: rotateY(-10deg); /* 3D Tilt */
-    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-    -webkit-box-reflect: below 2px linear-gradient(transparent, rgba(0,0,0,0.1));
+    position: absolute;
+    width: 100px;   /* Your 100px requirement */
+    height: 100px;
+    flex: none;     /* Disable flex shrinking */
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    transition: all 0.5s ease;
+    backface-visibility: visible; /* Allows seeing images as they loop behind */
 }
 
+/* Highlight the card in front */
 .recent-grid .app-card:hover {
-    transform: rotateY(0deg) scale(1.1) translateZ(30px);
-    z-index: 10;
+    background: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+    cursor: pointer;
 }
 
 .recent-grid .app-card img {
@@ -209,7 +241,16 @@ h1 { letter-spacing: -0.03em; }
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
 }
 
-.app-card h3 { font-size: 13px; font-weight: 700; }
+.app-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    background: linear-gradient(to bottom, #fff, #cbd5e1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .app-card span { font-size: 10px; color: #94a3b8; letter-spacing: 1px; }
 
 .app-card:hover {
@@ -217,6 +258,14 @@ h1 { letter-spacing: -0.03em; }
     box-shadow: 0 30px 60px rgba(0,0,0,.5);
     background: rgba(255, 255, 255, 0.12);
 }
+
+.app-grid .app-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+                0 0 20px rgba(59, 130, 246, 0.2); /* Soft Blue Glow */
+}
+
 
 /* =========================================
    HEADER & SEARCH
@@ -254,6 +303,23 @@ h1 { letter-spacing: -0.03em; }
     50% { transform: scale(1.2); }
     100% { transform: scale(1); }
 }
+.app-card {
+    position: relative;
+    border: none; /* Remove default border */
+}
+
+/* This creates a 1px "Light Catch" edge */
+.app-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px; /* The border thickness */
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent, rgba(255,255,255,0.05));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+}
 
 /* =========================================
    MOBILE COMPONENTS
@@ -270,7 +336,7 @@ h1 { letter-spacing: -0.03em; }
 }
 
 .mobile-header .logo { font-weight: 800; font-size: 20px; }
-.mobile-header i { font-size: 22px; }
+.mobile-header i { font-size: 22px; color: #60a5fa; }
 
 .overlay {
     position: fixed;
@@ -281,6 +347,63 @@ h1 { letter-spacing: -0.03em; }
     visibility: hidden;
     transition: opacity 0.5s ease;
     z-index: 900;
+}
+#recent-apps, #recommend-apps {
+    cursor: grab;
+    user-select: none;
+    touch-action: pan-y; /* Allows vertical scrolling but captures horizontal swipes */
+}
+
+#recent-apps:active, #recommend-apps:active {
+    cursor: grabbing;
+}
+
+.app-card img {
+    pointer-events: none; /* Prevents image dragging from breaking the swipe */
+}
+
+
+
+.recent-section {
+    perspective: 1500px; /* Increased perspective for a wider feel */
+    width: 100vw;        /* Full screen width */
+    margin-left: -32px;  /* Counteracts parent padding (adjust if your padding varies) */
+    overflow: visible;   /* Allows images to swing "near" the user */
+}
+
+.recent-grid {
+    width: 100%;
+    height: 180px;       /* Increased height to prevent clipping during rotation */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d;
+    touch-action: pan-y; /* Crucial: allows vertical scrolling while swiping wheel */
+}
+
+.recent-grid .app-card {
+    position: absolute;
+    width: 100px;   /* Increased from 100px */
+    height: 100px;  /* Increased height for text */
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 24px; /* Smoother corners for larger cards */
+    
+    /* Crucial: preserve-3d and smooth scaling */
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out, background 0.3s; 
+}
+
+.recent-grid .app-card img {
+    width: 60px;    /* Bigger icons */
+    height: 60px;
+}
+.recent-section {
+    perspective: 2500px; /* Increased to accommodate larger wheel sizes */
+    overflow: visible;
 }
 
 /* =========================================
