@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pix AI</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    
+    <style>
+        :root {
+            --bg: #0b0e14;
+            --card: #161b22;
+            --accent: #38bdf8;
+            --text: #e6edf3;
+            --user-bg: #21262d;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0; display: flex; justify-content: center; height: 100vh;
+        }
+
+        .container { width: 100%; max-width: 800px; display: flex; flex-direction: column; }
+
+        #chat-window {
+            flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 20px;
+        }
+
+        /* Message Styling */
+        .msg { padding: 15px; border-radius: 12px; line-height: 1.6; position: relative; max-width: 90%; }
+        .user { align-self: flex-end; background: var(--user-bg); border: 1px solid #30363d; }
+        .ai { align-self: flex-start; background: transparent; width: 100%; }
+
+        /* Code Block & Button Styling */
+        pre { 
+            position: relative; 
+            background: #0d1117 !important; 
+            padding: 1em; 
+            border-radius: 8px; 
+            overflow-x: auto;
+            border: 1px solid #30363d;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 5px; right: 5px;
+            background: #30363d;
+            color: #8b949e;
+            border: 1px solid #f0f6fc1a;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .copy-btn:hover { background: var(--accent); color: #000; }
+
+        /* Input Area */
+        .input-area { padding: 20px; background: var(--bg); display: flex; gap: 10px; border-top: 1px solid #30363d; }
+        input {
+            flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #30363d;
+            background: #0d1117; color: white; outline: none;
+        }
+        button#send-btn { background: var(--accent); color: #000; border: none; padding: 0 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+
+        .loading { font-style: italic; color: #8b949e; display: none; padding-left: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="chat-window"></div>
+    <div id="loading" class="loading">Working...</div>
+    <div class="input-area">
+        <input type="text" id="user-input" placeholder="Enter your questuon..." autocomplete="off">
+        <button id="send-btn">Send</button>
+    </div>
+</div>
+
+<script>
+    const API_KEY = "AIzaSyAdky1eYGcVvDoGK7Wt2IsTUA4fe6hD6NQ"; 
+    const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${API_KEY}`;
+    
+    const chatWindow = document.getElementById('chat-window');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const loading = document.getElementById('loading');
+
+    let history = [];
+
+    // Configure Markdown to handle code blocks
+    marked.setOptions({
+        highlight: function(code, lang) {
+            return Prism.highlight(code, Prism.languages.javascript || Prism.languages.markup, lang);
+        }
+    });
+
+    async function handleChat() {
+        const text = userInput.value.trim();
+        if (!text) return;
+
+        addMessage(text, 'user');
+        userInput.value = '';
+        loading.style.display = 'block';
+
+        history.push({ role: "user", parts: [{ text: text }] });
+
+        try {
+            const response = await fetch(URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ contents: history })
+            });
+
+            const data = await response.json();
+            loading.style.display = 'none';
+
+            if (data.candidates) {
+                const aiMsg = data.candidates[0].content.parts[0].text;
+                addMessage(aiMsg, 'ai');
+                history.push({ role: "model", parts: [{ text: aiMsg }] });
+            }
+        } catch (e) {
+            loading.style.display = 'none';
+            addMessage("❌ Error connecting to API.", 'ai');
+        }
+    }
+
+    function addMessage(text, role) {
+        const div = document.createElement('div');
+        div.className = `msg ${role}`;
+        
+        if (role === 'ai') {
+            // Convert Markdown to HTML
+            div.innerHTML = marked.parse(text);
+            
+            // Add Copy buttons to every <pre> (code block) tag
+            div.querySelectorAll('pre').forEach(pre => {
+                const btn = document.createElement('button');
+                btn.innerText = "Copy";
+                btn.className = "copy-btn";
+                btn.onclick = () => {
+                    navigator.clipboard.writeText(pre.innerText.replace('Copy', ''));
+                    btn.innerText = "Copied!";
+                    setTimeout(() => btn.innerText = "Copy", 2000);
+                };
+                pre.appendChild(btn);
+            });
+        } else {
+            div.innerText = text;
+        }
+
+        chatWindow.appendChild(div);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+        Prism.highlightAll(); // Refresh syntax highlighting
+    }
+
+    sendBtn.addEventListener('click', handleChat);
+    userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleChat(); });
+</script>
+
+</body>
+</html>
